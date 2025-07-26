@@ -12,7 +12,6 @@
         /* === НАСТРОЙКИ === */
         :root {
             --phone-number: "+79991234567"; /* Измените на ваш номер */
-            --redirect-percentage: 0; /* Процент редиректа в WhatsApp (0-100) */
             --psychic-name: "Мария"; /* Имя гадалки */
             --main-color: #7B2CBF; /* Основной цвет */
             --accent-color: #E0AAFF; /* Акцентный цвет */
@@ -296,6 +295,37 @@
                 padding: 16px;
             }
         }
+        /* === СТИЛЬ ДЛЯ МОДАЛЬНОГО ОКНА ЗАДЕРЖКИ === */
+        #redirectOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            color: white;
+            font-size: 24px;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        #redirectMessage {
+            background: var(--dark-bg);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 90%;
+            box-shadow: var(--shadow);
+        }
+        #countdownTimer {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -413,33 +443,40 @@
             </div>
         </div>
     </footer>
+
+    <!-- Оверлей для отображения задержки редиректа -->
+    <div id="redirectOverlay" style="display: none;">
+        <div id="redirectMessage">
+            <p>Спасибо за ваш интерес!</p>
+            <p>Вы будете перенаправлены на WhatsApp для консультации через:</p>
+            <div id="countdownTimer">5</div> <!-- Значение будет обновляться -->
+            <p>секунд...</p>
+        </div>
+    </div>
+
     <script>
         // === НАСТРОЙКИ JAVASCRIPT (ВСЕ В ОДНОМ МЕСТЕ ДЛЯ УДОБСТВА) ===
         const SETTINGS = {
-            phoneNumber: "+79991234567", // Измените на ваш номер
-            redirectPercentage: 100, // Процент редиректа в WhatsApp (0-100)
-            psychicName: "Мария", // Имя гадалки
-            siteUrl: "https://pogadanie.ru/", // URL вашего сайта для автоматического редиректа
+            phoneNumber: "+79175880592",        // Измените на ваш номер
+            enableRedirect: true,               // Включить/выключить логику редиректа (true/false)
+            redirectPercentage: 0,            // Процент срабатывания редиректа (0-100)
+            redirectDelaySeconds: 3,            // Задержка в секундах перед редиректом (0-10)
+            psychicName: "Элеонора",               // Имя гадалки
+            siteUrl: "https://pogadanie.ru/",   // URL вашего сайта для автоматического редиректа
             whatsappMessage: "Здравствуйте, хочу обратиться к вам по поводу гадания." // Сообщение по умолчанию
         };
 
         // === ЛОГИКА ===
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. Автоматический редирект при загрузке страницы (если URL совпадает)
-            if (window.location.href === SETTINGS.siteUrl) {
+            // 1. Автоматический редирект при загрузке страницы (если URL совпадает и включено)
+            if (SETTINGS.enableRedirect && window.location.href === SETTINGS.siteUrl) {
                 const shouldAutoRedirect = Math.random() * 100 < SETTINGS.redirectPercentage;
                 if (shouldAutoRedirect) {
-                    const formattedPhone = SETTINGS.phoneNumber.replace(/[^\d]/g, '');
-                    const encodedMessage = encodeURIComponent(SETTINGS.whatsappMessage);
-                    const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodedMessage}`;
-                    // Используем window.location.replace для прямого перехода без записи в историю
-                    window.location.replace(whatsappUrl);
-                    // Останавливаем дальнейшее выполнение скрипта на этой странице
-                    return;
+                    initiateRedirect();
                 }
             }
 
-            // 2. Если автоматический редирект не произошел, настраиваем страницу
+            // 2. Настройка страницы
             // Установка имени гадалки
             const nameElement = document.getElementById('psychicName');
             if (nameElement) {
@@ -450,29 +487,39 @@
             const formattedPhone = SETTINGS.phoneNumber.replace(/[^\d]/g, '');
             const encodedMessage = encodeURIComponent(SETTINGS.whatsappMessage);
             const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodedMessage}`;
-
             const whatsappButtons = document.querySelectorAll('#whatsappButton, #whatsappButton2');
-            whatsappButtons.forEach(button => {
-                button.href = whatsappUrl;
 
-                // Логика редиректа при клике на кнопку
+            whatsappButtons.forEach(button => {
+                // Если редирект выключен, кнопки просто ведут на WhatsApp
+                if (!SETTINGS.enableRedirect) {
+                    button.href = whatsappUrl;
+                    return;
+                }
+
+                // Если редирект включен, применяем логику с процентом
+                button.href = whatsappUrl; // Устанавливаем ссылку по умолчанию
+
                 button.addEventListener('click', function(e) {
                     const randomNum = Math.random() * 100;
-                    // console.log(`Random: ${randomNum}, Threshold: ${SETTINGS.redirectPercentage}`); // Для отладки
+                    console.log(`[Кнопка] Random: ${randomNum}, Threshold: ${SETTINGS.redirectPercentage}`);
 
                     if (randomNum < SETTINGS.redirectPercentage) {
-                        // Редирект происходит по умолчанию, ничего не делаем
-                        // console.log("Redirecting to WhatsApp on click...");
+                        // Редирект разрешен, проверяем задержку
+                        if (SETTINGS.redirectDelaySeconds > 0) {
+                            e.preventDefault(); // Отменяем стандартный переход
+                            initiateRedirect();  // Запускаем редирект с задержкой
+                        }
+                        // Если задержка 0, редирект происходит сразу по href
                     } else {
-                        // Отменяем редирект
+                        // Редирект заблокирован
                         e.preventDefault();
-                        // console.log("Click redirect prevented by percentage. Showing alert...");
+                        console.log("[Кнопка] Redirect prevented by percentage. Showing alert.");
                         alert('Спасибо за ваше обращение! Я свяжусь с вами в ближайшее время для консультации.');
                     }
                 });
             });
 
-            // Плавная прокрутка (оставлена без изменений)
+            // Плавная прокрутка
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -486,6 +533,49 @@
                     }
                 });
             });
+
+            // Функция для запуска редиректа с задержкой и оверлеем
+            function initiateRedirect() {
+                if (SETTINGS.redirectDelaySeconds <= 0) {
+                    // Нет задержки, сразу переходим
+                    performRedirect();
+                    return;
+                }
+
+                // Показываем оверлей с таймером
+                const overlay = document.getElementById('redirectOverlay');
+                const timerElement = document.getElementById('countdownTimer');
+                if (!overlay || !timerElement) {
+                     console.error("Элементы оверлея для задержки редиректа не найдены.");
+                     performRedirect(); // На случай, если элементы не созданы
+                     return;
+                }
+
+                let secondsLeft = SETTINGS.redirectDelaySeconds;
+                timerElement.textContent = secondsLeft;
+
+                overlay.style.display = 'flex'; // Показываем оверлей
+
+                const countdownInterval = setInterval(() => {
+                    secondsLeft--;
+                    timerElement.textContent = secondsLeft;
+
+                    if (secondsLeft <= 0) {
+                        clearInterval(countdownInterval);
+                        overlay.style.display = 'none'; // Скрываем оверлей
+                        performRedirect(); // Выполняем переход
+                    }
+                }, 1000); // Обновляем таймер каждую секунду
+            }
+
+            // Функция для непосредственного выполнения редиректа
+            function performRedirect() {
+                 const formattedPhone = SETTINGS.phoneNumber.replace(/[^\d]/g, '');
+                 const encodedMessage = encodeURIComponent(SETTINGS.whatsappMessage);
+                 const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodedMessage}`;
+                 console.log("[Redirect] Перенаправление на:", whatsappUrl);
+                 window.location.href = whatsappUrl;
+            }
         });
     </script>
 </body>
