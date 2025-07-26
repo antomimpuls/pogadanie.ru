@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html lang="ru" style="color-scheme:dark;">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Профессиональные услуги гадалки | Личные консультации</title>
-    <meta name="description" content="Персональные консультации от профессиональной гадалки. Решение проблем в любви, финансах, здоровье. Конфиденциально и без негативных последствий." />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+    <meta name="description" content="Персональные консультации от профессиональной гадалки. Решение проблем в любви, финансах, здоровье. Конфиденциально и без негативных последствий.">
+    
+    <!-- Preconnect для шрифтов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Современные шрифты с переменными -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    
     <script>
         const SITE_SETTINGS = {
             phoneNumber: "+79175880592",
@@ -21,580 +26,838 @@
             psychicImageURL: "https://raw.githubusercontent.com/antomimpuls/gadalka01/main/1%20(240).jpg"
         };
     </script>
+    
     <style>
+        /* ==================== */
+        /* ОСНОВНЫЕ ПЕРЕМЕННЫЕ */
+        /* ==================== */
         :root {
-            --font-sans: "Inter", system-ui, sans-serif;
-            --font-serif: "Playfair Display", serif;
-            --bg: #0a0a0a;
-            --bg-elevated: #161616;
-            --bg-glass: rgba(255, 255, 255, 0.03);
-            --accent: #c084fc;
-            --accent2: #a855f7;
-            --text: #ffffff;
-            --text-muted: #a3a3a3;
+            /* Цветовая палитра */
+            --color-bg: #0a0a0f;
+            --color-bg-elevated: #121218;
+            --color-bg-card: #1a1a25;
+            --color-bg-glass: rgba(255, 255, 255, 0.03);
+            --color-accent: #c084fc;
+            --color-accent-secondary: #a855f7;
+            --color-accent-tertiary: #8b5cf6;
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #cbd5e1;
+            --color-text-tertiary: #94a3b8;
+            
+            /* Градиенты */
+            --gradient-primary: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));
+            --gradient-secondary: linear-gradient(135deg, var(--color-accent-secondary), var(--color-accent-tertiary));
+            --gradient-text: linear-gradient(90deg, var(--color-accent), var(--color-accent-secondary), var(--color-accent-tertiary));
+            --gradient-bg: conic-gradient(
+                from 0deg at 50% 50%,
+                var(--color-accent) 0deg,
+                var(--color-accent-secondary) 120deg,
+                var(--color-accent-tertiary) 240deg,
+                var(--color-accent) 360deg
+            );
+            
+            /* Типографика */
+            --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --font-serif: 'Playfair Display', Georgia, 'Times New Roman', Times, serif;
+            
+            /* Размеры и отступы */
+            --radius-xs: 0.25rem;
             --radius-sm: 0.5rem;
-            --radius-md: 1rem;
-            --radius-lg: 1.5rem;
-            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
-            --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.3);
-            --gradient: linear-gradient(135deg, var(--accent), var(--accent2));
-            --gradient-reverse: linear-gradient(135deg, var(--accent2), var(--accent));
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --radius-xxl: 2rem;
+            --radius-full: 9999px;
+            
+            /* Тени */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --shadow-2xl: 0 50px 100px -25px rgba(0, 0, 0, 0.3);
+            --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+            
+            /* Анимации */
             --transition-all: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --animation-duration-bg: 20s;
-            --animation-duration-float: 6s;
+            --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-bounce: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            
+            /* Размеры */
+            --max-width-container: 1200px;
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
+
+        /* ==================== */
+        /* ОСНОВНЫЕ СТИЛИ */
+        /* ==================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background: var(--bg);
-            color: var(--text);
             font-family: var(--font-sans);
+            background-color: var(--color-bg);
+            color: var(--color-text-primary);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(192, 132, 252, 0.03) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.03) 0%, transparent 20%);
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.25rem; }
-        /* HERO */
-        .hero {
-            display: grid; place-items: center; min-height: 100vh;
-            padding: 4rem 0;
-            position: relative; overflow: hidden;
+
+        .container {
+            max-width: var(--max-width-container);
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
         }
-        .hero::after {
-            content: "";
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: 
-                conic-gradient(
-                    from 0deg at 50% 50%,
-                    rgba(192, 132, 252, 0.1) 0deg,
-                    rgba(168, 85, 247, 0.1) 120deg,
-                    rgba(192, 132, 252, 0.1) 240deg,
-                    rgba(168, 85, 247, 0.1) 360deg
-                );
-            animation: rotateBackground var(--animation-duration-bg) linear infinite;
-            z-index: 0;
-            pointer-events: none;
+
+        /* ==================== */
+        /* АНИМАЦИИ */
+        /* ==================== */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
-        @keyframes rotateBackground {
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes wave {
             0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            10% { transform: rotate(14deg); }
+            20% { transform: rotate(-8deg); }
+            30% { transform: rotate(14deg); }
+            40% { transform: rotate(-4deg); }
+            50% { transform: rotate(10deg); }
+            60% { transform: rotate(0deg); }
+            100% { transform: rotate(0deg); }
         }
+
+        /* ==================== */
+        /* ГЕРОЙ-СЕКЦИЯ */
+        /* ==================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: var(--spacing-3xl) 0;
+            overflow: hidden;
+        }
+
+        /* Динамический градиентный фон */
         .hero::before {
-            content: "";
-            position: absolute; inset: 0;
-            background: url('image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" preserveAspectRatio="none"><defs><pattern id="noise" width="200" height="200" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1.5" fill="white" opacity=".07"/><circle cx="75" cy="75" r="1.5" fill="white" opacity=".07"/><circle cx="125" cy="125" r="1.5" fill="white" opacity=".07"/><circle cx="175" cy="175" r="1.5" fill="white" opacity=".07"/><circle cx="50" cy="150" r="1.5" fill="white" opacity=".07"/><circle cx="150" cy="50" r="1.5" fill="white" opacity=".07"/></pattern></defs><rect width="200" height="200" fill="url(%23noise)"/></svg>');
-            pointer-events: none; z-index: 0;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-bg);
+            animation: rotate 20s linear infinite;
+            opacity: 0.1;
+            z-index: -2;
         }
+
+        /* Шумовой фон */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(192, 132, 252, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.05) 0%, transparent 20%);
+            z-index: -1;
+        }
+
         .hero-content {
-            position: relative; z-index: 1;
-            display: grid; grid-template-columns: 1fr; gap: 2rem;
-            align-items: center; text-align: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+            align-items: center;
+            position: relative;
+            z-index: 1;
         }
-        @media (min-width: 768px) {
-            .hero-content { grid-template-columns: 1fr 1fr; text-align: left; gap: 3rem; }
+
+        .hero-text {
+            animation: fadeInUp 1s ease-out;
         }
+
         .hero-text h1 {
             font-family: var(--font-serif);
-            font-size: clamp(1.8rem, 5vw + 1rem, 4rem);
-            font-weight: 700; line-height: 1.1;
-            color: white;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: var(--spacing-md);
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 300% 300%;
+            animation: gradient 8s ease infinite;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-xl);
+            max-width: 600px;
+        }
+
+        .hero-image {
             position: relative;
-            display: inline-block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .hero-text p { 
-            margin-top: 1.25rem; 
-            font-size: 1.125rem; 
-            color: var(--text-muted); 
-            max-width: 30ch;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 0.5s forwards;
+
+        .hero-image-wrapper {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            box-shadow: var(--shadow-2xl);
+            animation: float 6s ease-in-out infinite;
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
-            from { opacity: 0; transform: translateY(20px); }
+
+        .hero-image-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: var(--gradient-primary);
+            animation: rotate 10s linear infinite;
+            opacity: 0.3;
+            z-index: -1;
+            filter: blur(30px);
         }
-        .hero-cta { 
-            margin-top: 2rem;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 1s forwards;
-        }
-        @keyframes fadeIn {
-            to { opacity: 1; }
-            from { opacity: 0; }
-        }
-        .btn-primary {
-            display: inline-flex; align-items: center; gap: .5rem;
-            padding: 1rem 2rem; font-weight: 600; font-size: 1.125rem;
-            color: #000; background: var(--gradient);
-            border-radius: var(--radius-md); 
-            box-shadow: var(--shadow);
+
+        .hero-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(0.3) contrast(1.1);
             transition: var(--transition-all);
-            text-decoration: none;
+        }
+
+        .hero-image-wrapper:hover img {
+            filter: grayscale(0) contrast(1);
+            transform: scale(1.05);
+        }
+
+        /* ==================== */
+        /* КНОПКИ */
+        /* ==================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-xl);
+            font-weight: 600;
+            font-size: 1.125rem;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: var(--transition-all);
             position: relative;
             overflow: hidden;
             z-index: 1;
             border: none;
-            cursor: pointer;
+            text-decoration: none;
         }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: #000;
+            box-shadow: var(--shadow-lg);
+        }
+
         .btn-primary::before {
             content: '';
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: var(--gradient-reverse);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-secondary);
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: -1;
             filter: blur(15px);
         }
+
         .btn-primary:hover {
             transform: translateY(-4px) scale(1.03);
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-2xl);
         }
+
         .btn-primary:hover::before {
             opacity: 0.7;
         }
-        .hero-img-wrapper {
-            position: relative; 
-            width: 100%; 
-            max-width: 320px; 
-            margin: 0 auto;
-            aspect-ratio: 1/1; 
-            border-radius: var(--radius-lg); 
-            overflow: hidden;
-            box-shadow: var(--shadow-lg); 
-            background: var(--bg-elevated);
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            transition: transform 0.5s ease;
+
+        .btn-primary:active {
+            transform: translateY(0) scale(0.98);
         }
-        .hero-img-wrapper:hover {
-            transform: perspective(1000px) rotateY(5deg) rotateX(5deg);
-        }
-        .hero-img-wrapper::after {
-            content: ""; 
-            position: absolute; 
-            inset: 0;
-            background: var(--gradient); 
-            mix-blend-mode: screen; 
-            opacity: .2; 
-            pointer-events: none;
-            animation: pulseGlow 4s ease-in-out infinite alternate;
-        }
-        @keyframes pulseGlow {
-            0% { opacity: 0.1; }
-            100% { opacity: 0.3; }
-        }
-        .hero-img {
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover;
-            transition: filter 0.5s ease;
-            filter: grayscale(0.3) contrast(1.1);
-            max-width: 100%; 
-            height: auto;
-            display: block;
-        }
-        .hero-img:hover { 
-            filter: grayscale(0) contrast(1); 
-        }
-        /* SECTIONS */
-        section { 
-            padding: 5rem 0; 
-            position: relative;
-        }
+
+        /* ==================== */
+        /* СЕКЦИИ */
+        /* ==================== */
         section {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            padding: var(--spacing-3xl) 0;
         }
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
+
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--spacing-3xl);
         }
+
         .section-title {
-            font-family: var(--font-serif); 
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 600; 
-            text-align: center; 
-            margin-bottom: 3rem;
-            background: var(--gradient); 
-            -webkit-background-clip: text; 
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
+            background-size: 300% 300%;
+            animation: gradient 8s ease infinite;
         }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 3px;
-            background: var(--gradient);
-            border-radius: 3px;
-            animation: expandLine 1s ease-out forwards;
-            transform-origin: center;
-            opacity: 0;
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-text-tertiary);
+            max-width: 700px;
+            margin: 0 auto;
         }
-        @keyframes expandLine {
-            to { width: 100px; opacity: 1; }
-            from { width: 0; opacity: 0; }
-        }
-        /* Problems */
+
+        /* ==================== */
+        /* КАРТОЧКИ ПРОБЛЕМ */
+        /* ==================== */
         .problems-grid {
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
         }
+
         .problem-card {
-            padding: 1.5rem; 
-            background: var(--bg-elevated);
-            border: 1px solid transparent; 
-            border-radius: var(--radius-md);
+            background: var(--color-bg-card);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
             transition: var(--transition-all);
             position: relative;
-            overflow: visible; /* Исправлено для отображения tooltip */
-            z-index: 1;
+            overflow: hidden;
+            border: 1px solid rgba(192, 132, 252, 0.1);
             cursor: pointer;
+            z-index: 1;
         }
+
         .problem-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: -1;
-            filter: blur(20px);
+            filter: blur(30px);
         }
+
         .problem-card:hover {
-            border-color: var(--accent); 
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(192, 132, 252, 0.2);
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--color-accent);
+            box-shadow: 0 20px 25px -5px rgba(192, 132, 252, 0.1), 0 10px 10px -5px rgba(192, 132, 252, 0.04);
         }
+
         .problem-card:hover::before {
-            opacity: 0.3;
+            opacity: 0.2;
         }
-        .problem-icon { 
-            font-size: 2.5rem; 
-            margin-bottom: .75rem;
-            transition: transform 0.3s ease;
+
+        .problem-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-md);
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: var(--transition-all);
         }
+
         .problem-card:hover .problem-icon {
             transform: scale(1.2) rotate(5deg);
         }
-        .problem-text { 
-            color: var(--text-muted);
-            transition: color 0.3s ease;
+
+        .problem-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-text-primary);
         }
-        .problem-card:hover .problem-text {
-            color: var(--text);
+
+        .problem-description {
+            font-size: 0.95rem;
+            color: var(--color-text-tertiary);
+            line-height: 1.5;
         }
-        /* Исправленные стили для Tooltip */
-        .problem-tooltip {
-            visibility: hidden;
-            opacity: 0;
-            position: absolute;
-            /* Исправлено позиционирование */
-            bottom: calc(100% + 10px); /* Размещение над карточкой с отступом */
-            left: 50%;
-            transform: translateX(-50%) translateY(10px); /* Начальное смещение вниз */
-            background-color: var(--bg-elevated);
-            color: var(--text);
-            text-align: center;
-            padding: 15px;
-            border-radius: var(--radius-md);
-            white-space: normal;
-            width: 250px;
-            font-size: 0.9rem;
-            /* Увеличен z-index для корректного отображения */
-            z-index: 1000;
-            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--accent);
-        }
-        .problem-card:hover .problem-tooltip {
-            visibility: visible;
-            opacity: 1;
-            /* Исправлено финальное позиционирование */
-            transform: translateX(-50%) translateY(0);
-        }
-        /* Стрелочка для tooltip */
-        .problem-tooltip::after {
-            content: "";
-            position: absolute;
-            top: 100%; /* Стрелка внизу tooltip */
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            /* Исправлены цвета стрелки */
-            border-color: var(--accent) transparent transparent transparent;
-        }
-        /* Benefits */
+
+        /* ==================== */
+        /* КАРТОЧКИ ПРЕИМУЩЕСТВ */
+        /* ==================== */
         .benefits-grid {
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-            gap: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-xl);
         }
+
         .benefit-card {
-            padding: 2rem 1.5rem; 
+            background: var(--color-bg-glass);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-2xl);
             text-align: center;
-            background: var(--bg-glass); 
-            border-radius: var(--radius-md);
-            backdrop-filter: blur(10px); 
-            box-shadow: var(--shadow);
             transition: var(--transition-all);
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .benefit-card:nth-child(1) { animation: float var(--animation-duration-float) ease-in-out infinite; }
-        .benefit-card:nth-child(2) { animation: float calc(var(--animation-duration-float) - 1s) ease-in-out infinite 0.5s; }
-        .benefit-card:nth-child(3) { animation: float calc(var(--animation-duration-float) + 1s) ease-in-out infinite 1s; }
-        .benefit-card:nth-child(4) { animation: float var(--animation-duration-float) ease-in-out infinite 1.5s; }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
+
+        .benefit-card:nth-child(1) { animation: float 6s ease-in-out infinite; }
+        .benefit-card:nth-child(2) { animation: float 5s ease-in-out infinite 0.5s; }
+        .benefit-card:nth-child(3) { animation: float 7s ease-in-out infinite 1s; }
+        .benefit-card:nth-child(4) { animation: float 6s ease-in-out infinite 1.5s; }
+
         .benefit-card:hover {
             transform: translateY(-15px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border-color: var(--color-accent);
         }
-        .benefit-icon { 
-            font-size: 3.5rem; 
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
+
+        .benefit-icon {
+            font-size: 4rem;
+            margin-bottom: var(--spacing-md);
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: var(--transition-all);
         }
+
         .benefit-card:hover .benefit-icon {
             transform: scale(1.3) rotate(10deg);
-            filter: drop-shadow(0 0 10px var(--accent));
+            filter: drop-shadow(0 0 15px var(--color-accent));
         }
-        .benefit-title { 
-            font-weight: 600; 
-            margin-bottom: .5rem; 
-            color: var(--accent);
-            transition: color 0.3s ease;
+
+        .benefit-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-accent);
         }
-        .benefit-card:hover .benefit-title {
-            color: #fff;
+
+        .benefit-description {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
         }
-        .benefit-description { 
-            color: var(--text-muted); 
-            font-size: .875rem;
-        }
-        /* CTA */
-        .cta { 
-            text-align: center; 
-            max-width: 600px; 
-            margin: 0 auto;
-            padding: 3rem;
+
+        /* ==================== */
+        /* CTA СЕКЦИЯ */
+        /* ==================== */
+        .cta {
             background: linear-gradient(135deg, rgba(192, 132, 252, 0.1), rgba(168, 85, 247, 0.1));
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-xxl);
+            padding: var(--spacing-3xl);
+            text-align: center;
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(192, 132, 252, 0.2);
         }
+
         .cta::before {
             content: '';
             position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
             background: radial-gradient(circle, rgba(192, 132, 252, 0.2) 0%, transparent 70%);
-            animation: rotatePulse 15s linear infinite;
+            animation: rotate 15s linear infinite;
             z-index: -1;
         }
-        @keyframes rotatePulse {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        .cta h2 {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .cta p { 
-            color: var(--text-muted); 
-            margin-bottom: 2rem;
+
+        .cta p {
+            font-size: 1.25rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-xl);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        /* Footer */
+
+        /* ==================== */
+        /* ФУТЕР */
+        /* ==================== */
         footer {
-            padding: 3rem 0; 
-            text-align: center; 
-            color: var(--text-muted);
-            font-size: .875rem; 
-            border-top: 1px solid var(--bg-elevated);
-            background: rgba(10, 10, 10, 0.7);
+            padding: var(--spacing-2xl) 0;
+            text-align: center;
+            color: var(--color-text-tertiary);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(10, 10, 15, 0.7);
             backdrop-filter: blur(10px);
         }
-        footer a { 
-            color: var(--accent); 
-            margin: 0 .5rem; 
+
+        .footer-links {
+            margin: var(--spacing-md) 0;
+        }
+
+        .footer-links a {
+            color: var(--color-accent);
+            margin: 0 var(--spacing-sm);
             text-decoration: none;
-            transition: color 0.3s ease, text-shadow 0.3s ease;
+            transition: var(--transition-all);
         }
-        footer a:hover {
-            color: #fff;
-            text-shadow: 0 0 8px var(--accent);
+
+        .footer-links a:hover {
+            color: var(--color-text-primary);
+            text-shadow: 0 0 8px var(--color-accent);
         }
-        /* Redirect Modal */
+
+        /* ==================== */
+        /* МОДАЛЬНОЕ ОКНО */
+        /* ==================== */
         #redirectOverlay {
-            position: fixed; inset: 0; 
-            background: rgba(0, 0, 0, 0.85);
-            display: none; 
-            align-items: center; 
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
             justify-content: center;
-            z-index: 1000; 
-            padding: 1rem;
-            backdrop-filter: blur(5px);
+            z-index: 10000;
+            padding: var(--spacing-md);
+            backdrop-filter: blur(10px);
         }
+
         .modal {
-            background: var(--bg-elevated); 
-            padding: 2.5rem 2rem;
-            border-radius: var(--radius-md); 
+            background: var(--color-bg-elevated);
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-xl);
             text-align: center;
-            max-width: 400px; 
-            width: 100%; 
-            box-shadow: var(--shadow-lg);
+            max-width: 500px;
+            width: 100%;
+            box-shadow: var(--shadow-2xl);
             position: relative;
             overflow: hidden;
-            border: 1px solid var(--accent);
+            border: 1px solid var(--color-accent);
         }
+
         .modal::before {
             content: '';
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 5px;
-            background: var(--gradient);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-primary);
             animation: loadingBar 8s linear;
         }
+
         @keyframes loadingBar {
             from { width: 100%; }
             to { width: 0%; }
         }
-        .modal h2 { 
-            margin-bottom: 1rem; 
-            font-family: var(--font-serif); 
-            font-size: 1.5rem;
+
+        .modal h2 {
+            margin-bottom: var(--spacing-md);
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 700;
         }
-        #countdownTimer { 
-            font-size: 3rem; 
-            font-weight: 700; 
-            color: var(--accent); 
-            margin: .5rem 0;
-            text-shadow: 0 0 10px rgba(192, 132, 252, 0.5);
+
+        #countdownTimer {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--color-accent);
+            margin: var(--spacing-md) 0;
+            text-shadow: 0 0 15px rgba(192, 132, 252, 0.5);
         }
-        /* Адаптивность */
+
+        /* ==================== */
+        /* АНИМАЦИИ ПОЯВЛЕНИЯ */
+        /* ==================== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==================== */
+        /* АДАПТИВНОСТЬ */
+        /* ==================== */
+        @media (max-width: 992px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: var(--spacing-xl);
+            }
+            
+            .hero-text p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .hero-image {
+                order: -1;
+            }
+        }
+
         @media (max-width: 768px) {
-            .hero { padding: 2rem 0; }
-            .hero-content { gap: 1.5rem; }
-            section { padding: 3rem 0; }
-            .cta { padding: 2rem 1rem; }
+            .container {
+                padding: 0 var(--spacing-sm);
+            }
+            
+            section {
+                padding: var(--spacing-2xl) 0;
+            }
+            
+            .hero {
+                padding: var(--spacing-2xl) 0;
+            }
+            
+            .hero-text h1 {
+                font-size: clamp(2rem, 8vw, 3rem);
+            }
+            
+            .hero-text p {
+                font-size: 1.1rem;
+            }
+            
+            .hero-image-wrapper {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .cta {
+                padding: var(--spacing-xl);
+            }
+            
+            .cta p {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .problems-grid,
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-image-wrapper {
+                width: 250px;
+                height: 250px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- HERO -->
+    <!-- ГЕРОЙ-СЕКЦИЯ -->
     <header class="hero">
         <div class="container hero-content">
             <div class="hero-text">
                 <h1>Профессиональные услуги гадалки</h1>
                 <p>Решение проблем в любви, финансах и здоровье. Конфиденциально и без негативных последствий.</p>
-                <div class="hero-cta">
-                    <a href="#" class="btn-primary" id="whatsappButton">
+                <a href="#" class="btn btn-primary" id="whatsappButton">
+                    <span>💬</span> Написать в WhatsApp
+                </a>
+            </div>
+            <div class="hero-image">
+                <div class="hero-image-wrapper">
+                    <img src="https://raw.githubusercontent.com/antomimpuls/gadalka01/main/1%20(240).jpg" alt="Гадалка Элеонора">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- ПРОБЛЕМЫ -->
+        <section class="animate-on-scroll">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Какие проблемы я решаю</h2>
+                    <p class="section-subtitle">С помощью древних знаний и интуиции я помогу вам преодолеть любые жизненные трудности</p>
+                </div>
+                <div class="problems-grid">
+                    <div class="problem-card">
+                        <div class="problem-icon">💔</div>
+                        <h3 class="problem-text">Не складывается личная жизнь</h3>
+                        <p class="problem-description">Если вы чувствуете одиночество, часто сталкиваетесь с недопониманием в отношениях или испытываете трудности с нахождением второй половинки, я помогу расставить приоритеты и найти путь к гармонии в личной жизни.</p>
+                    </div>
+                    <div class="problem-card">
+                        <div class="problem-icon">👫</div>
+                        <h3 class="problem-text">Возврат любимого человека</h3>
+                        <p class="problem-description">Потеряли близкого человека и хотите вернуть его? Я проведу анализ ситуации и помогу восстановить утраченную связь, если это возможно и безопасно.</p>
+                    </div>
+                    <div class="problem-card">
+                        <div class="problem-icon">💸</div>
+                        <h3 class="problem-text">Финансовые трудности</h3>
+                        <p class="problem-description">Если вы испытываете проблемы с деньгами, не можете найти работу или ваш бизнес не развивается, я помогу выявить причины и указать путь к финансовому благополучию.</p>
+                    </div>
+                    <div class="problem-card">
+                        <div class="problem-icon">🧿</div>
+                        <h3 class="problem-text">Сглаз, порча, проклятие</h3>
+                        <p class="problem-description">Чувствуете, что вас преследует неудача, болезни или постоянный стресс? Я смогу определить негативные воздействия и устранить их последствия.</p>
+                    </div>
+                    <div class="problem-card">
+                        <div class="problem-icon">🏠</div>
+                        <h3 class="problem-text">Семейные конфликты, развод</h3>
+                        <p class="problem-description">Семейные ссоры, постоянное напряжение или угроза распада семьи? Я помогу понять корень проблемы и найти пути к примирению и восстановлению отношений.</p>
+                    </div>
+                    <div class="problem-card">
+                        <div class="problem-icon">🍀</div>
+                        <h3 class="problem-text">Невезение по жизни</h3>
+                        <p class="problem-description">Если кажется, что ничего не получается, и удача постоянно обходит вас стороной, я помогу найти причины и открыть двери к успеху и везению.</p>
+                    </div>
+                    <div class="problem-card">
+                        <div class="problem-icon">🏥</div>
+                        <h3 class="problem-text">Проблемы со здоровьем</h3>
+                        <p class="problem-description">Стойкие проблемы со здоровьем, которые не поддаются лечению? Я могу помочь выявить скрытые причины и направить вас к гармонии тела и духа.</p>
+                    </div>
+                    <div class="problem-card">
+                        <div class="problem-icon">🌀</div>
+                        <h3 class="problem-text">Другие жизненные трудности</h3>
+                        <p class="problem-description">Любые другие сложности, мешающие вам жить полноценной жизнью. Обратитесь, и мы вместе найдем выход из любой ситуации.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ПРЕИМУЩЕСТВА -->
+        <section class="animate-on-scroll">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Почему стоит обратиться именно ко мне</h2>
+                    <p class="section-subtitle">Мои уникальные методики и многолетний опыт гарантируют эффективные результаты</p>
+                </div>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">⚡</div>
+                        <h3 class="benefit-title">Быстрый результат</h3>
+                        <p class="benefit-description">Эффективные методики дают результат в кратчайшие сроки</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🛡️</div>
+                        <h3 class="benefit-title">Безопасность</h3>
+                        <p class="benefit-description">Работаю белыми методами без негативных последствий</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🌐</div>
+                        <h3 class="benefit-title">Дистанционно</h3>
+                        <p class="benefit-description">Помогаю независимо от вашего местоположения</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🤫</div>
+                        <h3 class="benefit-title">Конфиденциально</h3>
+                        <p class="benefit-description">Полная анонимность и защита ваших данных</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="animate-on-scroll">
+            <div class="container">
+                <div class="cta">
+                    <h2 class="section-title">Готова помочь вам прямо сейчас</h2>
+                    <p>Не откладывайте решение своих проблем. Напишите мне в WhatsApp, и мы вместе найдём выход из ситуации. Первая консультация включает анализ и рекомендации.</p>
+                    <a href="#" class="btn btn-primary" id="whatsappButton2">
                         <span>💬</span> Написать в WhatsApp
                     </a>
                 </div>
             </div>
-            <div class="hero-img-wrapper">
-                <img src="https://raw.githubusercontent.com/antomimpuls/gadalka01/main/1%20(240).jpg"
-                     alt="Гадалка Элеонора" class="hero-img">
-            </div>
-        </div>
-    </header>
-    <main class="container">
-        <!-- Problems -->
-        <section id="problems">
-            <h2 class="section-title">Какие проблемы я решаю</h2>
-            <div class="problems-grid">
-                <div class="problem-card">
-                    <div class="problem-icon">💔</div>
-                    <div class="problem-text">Не складывается личная жизнь</div>
-                    <div class="problem-tooltip">Если вы чувствуете одиночество, часто сталкиваетесь с недопониманием в отношениях или испытываете трудности с нахождением второй половинки, я помогу расставить приоритеты и найти путь к гармонии в личной жизни.</div>
-                </div>
-                <div class="problem-card">
-                    <div class="problem-icon">👫</div>
-                    <div class="problem-text">Возврат любимого человека</div>
-                    <div class="problem-tooltip">Потеряли близкого человека и хотите вернуть его? Я проведу анализ ситуации и помогу восстановить утраченную связь, если это возможно и безопасно.</div>
-                </div>
-                <div class="problem-card">
-                    <div class="problem-icon">💸</div>
-                    <div class="problem-text">Финансовые трудности</div>
-                    <div class="problem-tooltip">Если вы испытываете проблемы с деньгами, не можете найти работу или ваш бизнес не развивается, я помогу выявить причины и указать путь к финансовому благополучию.</div>
-                </div>
-                <div class="problem-card">
-                    <div class="problem-icon">🧿</div>
-                    <div class="problem-text">Сглаз, порча, проклятие</div>
-                    <div class="problem-tooltip">Чувствуете, что вас преследует неудача, болезни или постоянный стресс? Я смогу определить негативные воздействия и устранить их последствия.</div>
-                </div>
-                <div class="problem-card">
-                    <div class="problem-icon">🏠</div>
-                    <div class="problem-text">Семейные конфликты, развод</div>
-                    <div class="problem-tooltip">Семейные ссоры, постоянное напряжение или угроза распада семьи? Я помогу понять корень проблемы и найти пути к примирению и восстановлению отношений.</div>
-                </div>
-                <div class="problem-card">
-                    <div class="problem-icon">🍀</div>
-                    <div class="problem-text">Невезение по жизни</div>
-                    <div class="problem-tooltip">Если кажется, что ничего не получается, и удача постоянно обходит вас стороной, я помогу найти причины и открыть двери к успеху и везению.</div>
-                </div>
-                <div class="problem-card">
-                    <div class="problem-icon">🏥</div>
-                    <div class="problem-text">Проблемы со здоровьем</div>
-                    <div class="problem-tooltip">Стойкие проблемы со здоровьем, которые не поддаются лечению? Я могу помочь выявить скрытые причины и направить вас к гармонии тела и духа.</div>
-                </div>
-                <div class="problem-card">
-                    <div class="problem-icon">🌀</div>
-                    <div class="problem-text">Другие жизненные трудности</div>
-                    <div class="problem-tooltip">Любые другие сложности, мешающие вам жить полноценной жизнью. Обратитесь, и мы вместе найдем выход из любой ситуации.</div>
-                </div>
-            </div>
-        </section>
-        <!-- Benefits -->
-        <section id="benefits">
-            <h2 class="section-title">Почему стоит обратиться именно ко мне</h2>
-            <div class="benefits-grid">
-                <div class="benefit-card"><div class="benefit-icon">⚡</div><h3 class="benefit-title">Быстрый результат</h3><p class="benefit-description">Эффективные методики дают результат в кратчайшие сроки</p></div>
-                <div class="benefit-card"><div class="benefit-icon">🛡️</div><h3 class="benefit-title">Безопасность</h3><p class="benefit-description">Работаю белыми методами без негативных последствий</p></div>
-                <div class="benefit-card"><div class="benefit-icon">🌐</div><h3 class="benefit-title">Дистанционно</h3><p class="benefit-description">Помогаю независимо от вашего местоположения</p></div>
-                <div class="benefit-card"><div class="benefit-icon">🤫</div><h3 class="benefit-title">Конфиденциально</h3><p class="benefit-description">Полная анонимность и защита ваших данных</p></div>
-            </div>
-        </section>
-        <!-- CTA -->
-        <section id="cta">
-            <div class="cta">
-                <h2 class="section-title">Готова помочь вам прямо сейчас</h2>
-                <p>Не откладывайте решение своих проблем. Напишите мне в WhatsApp, и мы вместе найдём выход из ситуации. Первая консультация включает анализ и рекомендации.</p>
-                <a href="#" class="btn-primary" id="whatsappButton2">
-                    <span>💬</span> Написать в WhatsApp
-                </a>
-            </div>
         </section>
     </main>
+
+    <!-- ФУТЕР -->
     <footer>
         <div class="container">
             <p>Профессиональные услуги гадалки</p>
             <p>Конфиденциально • Без негативных последствий • На расстоянии</p>
-            <div>
+            <div class="footer-links">
                 <a href="#">Политика конфиденциальности</a>
                 <a href="#">Отказ от ответственности</a>
                 <a href="#">Контакты</a>
             </div>
         </div>
     </footer>
-    <!-- Redirect Modal -->
+
+    <!-- МОДАЛЬНОЕ ОКНО -->
     <div id="redirectOverlay">
         <div class="modal">
             <h2>Перенаправление в WhatsApp</h2>
@@ -603,6 +866,7 @@
             <p>секунд…</p>
         </div>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Яндекс.Метрика
@@ -617,7 +881,7 @@
             }
             
             // Анимация появления секций при скролле
-            const sections = document.querySelectorAll('section');
+            const animateOnScrollElements = document.querySelectorAll('.animate-on-scroll');
             
             const observerOptions = {
                 root: null,
@@ -634,21 +898,24 @@
                 });
             }, observerOptions);
             
-            sections.forEach(section => {
-                observer.observe(section);
+            animateOnScrollElements.forEach(el => {
+                observer.observe(el);
             });
             
             // Авто-редирект при загрузке (если включено и пользователь на главной странице)
             if (SITE_SETTINGS.enableRedirect && window.location.href === SITE_SETTINGS.siteUrl) {
                 if (Math.random() * 100 < SITE_SETTINGS.redirectPercentage) initiateRedirect();
             }
+            
             // Настройка кнопок WhatsApp
             const phone = SITE_SETTINGS.phoneNumber.replace(/\D/g, '');
             const msg = encodeURIComponent(SITE_SETTINGS.whatsappMessage);
             const url = `https://wa.me/${phone}?text=${msg}`;
+            
             document.querySelectorAll('#whatsappButton, #whatsappButton2').forEach(btn => {
                 // Если редирект выключен, просто устанавливаем ссылку
                 if (!SITE_SETTINGS.enableRedirect) return btn.href = url;
+                
                 btn.href = url;
                 btn.addEventListener('click', e => {
                     // Проверяем, нужно ли перенаправлять (согласно проценту)
@@ -666,19 +933,23 @@
                     }
                 });
             });
+            
             // Функция для запуска таймера и показа модального окна
             function initiateRedirect() {
                 // Если задержка 0 или меньше, перенаправляем сразу
                 if (SITE_SETTINGS.redirectDelaySeconds <= 0) return performRedirect();
+                
                 const overlay = document.getElementById('redirectOverlay');
                 const timer = document.getElementById('countdownTimer');
                 let sec = SITE_SETTINGS.redirectDelaySeconds;
                 timer.textContent = sec;
                 overlay.style.display = 'flex';
+                
                 // Запуск таймера
                 const int = setInterval(() => {
                     sec--;
                     timer.textContent = sec;
+                    
                     // Когда таймер заканчивается, скрываем модальное окно и перенаправляем
                     if (sec <= 0) {
                         clearInterval(int);
@@ -687,6 +958,7 @@
                     }
                 }, 1000);
             }
+            
             // Функция непосредственного перенаправления на WhatsApp
             function performRedirect() {
                 const phone = SITE_SETTINGS.phoneNumber.replace(/\D/g, '');
