@@ -31,7 +31,7 @@
             --bg-glass: rgba(255 255 255 / .05);
             --accent: #c084fc;
             --accent2: #a855f7;
-            --text: #fafafa;
+            --text: #ffffff;
             --text-muted: #a1a1aa;
             --radius: 1rem;
             --shadow: 0 8px 32px rgba(0 0 0 / .4);
@@ -74,7 +74,9 @@
             /* Исправлено: уменьшено минимальное значение с 2.5rem до 1.8rem */
             font-size: clamp(1.8rem, 5vw + 1rem, 4rem);
             font-weight: 700; line-height: 1.1;
-            background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            /* background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; */
+            /* Изменено: Установка белого цвета текста */
+            color: white;
         }
         .hero-text p { margin-top: 1.25rem; font-size: 1.125rem; color: var(--text-muted); max-width: 30ch; }
         .hero-cta { margin-top: 2rem; }
