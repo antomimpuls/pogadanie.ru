@@ -82,6 +82,11 @@
             --spacing-xl: 2rem;
             --spacing-2xl: 3rem;
             --spacing-3xl: 4rem;
+
+            /* Переменные для модальных окон */
+            --modal-bg: #1a1a25;
+            --modal-border: var(--color-accent);
+            --modal-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(192, 132, 252, 0.3);
         }
         /* ==================== */
         /* ОСНОВНЫЕ СТИЛИ */
@@ -174,7 +179,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
+            background-image:
                 radial-gradient(circle at 10% 20%, rgba(192, 132, 252, 0.05) 0%, transparent 20%),
                 radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.05) 0%, transparent 20%);
             z-index: -1;
@@ -502,7 +507,7 @@
             text-shadow: 0 0 8px var(--color-accent);
         }
         /* ==================== */
-        /* МОДАЛЬНОЕ ОКНО */
+        /* МОДАЛЬНОЕ ОКНО (старое, для основных кнопок) */
         /* ==================== */
         #redirectOverlay {
             position: fixed;
@@ -554,6 +559,177 @@
             margin: var(--spacing-md) 0;
             text-shadow: 0 0 15px rgba(192, 132, 252, 0.5);
         }
+
+        /* ==================== */
+        /* НОВЫЕ МОДАЛЬНЫЕ ОКНА (уникальные для каждой проблемы) */
+        /* ==================== */
+        .problem-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            display: none; /* Изначально скрыто */
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            padding: var(--spacing-md);
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            visibility: hidden;
+        }
+        .problem-modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+            display: flex; /* Добавляем display:flex при открытии */
+        }
+        .problem-modal {
+            background: var(--modal-bg);
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-xl);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: var(--modal-shadow);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--modal-border);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .problem-modal-overlay.visible .problem-modal {
+             transform: translateY(0);
+             opacity: 1;
+        }
+
+        /* Градиентная рамка сверху */
+        .problem-modal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .problem-modal-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-md);
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .problem-modal h2 {
+            margin-bottom: var(--spacing-md);
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            letter-spacing: 1px;
+        }
+        .problem-modal p {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-xl);
+            line-height: 1.7;
+        }
+
+        /* Стили для кнопки в модальном окне */
+        .problem-modal-whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-xl);
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: var(--transition-all);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: none;
+            text-decoration: none;
+            background: var(--gradient-primary);
+            color: #000;
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .problem-modal-whatsapp-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+        }
+        .problem-modal-whatsapp-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        /* Эффект "блеска" на кнопке */
+        .problem-modal-whatsapp-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            transition: none;
+            opacity: 0;
+            z-index: -1;
+        }
+        .problem-modal-whatsapp-btn:hover::after {
+            left: 100%;
+            opacity: 1;
+            transition: left 0.8s ease, opacity 0.8s ease;
+        }
+
+        /* Стили для кнопки закрытия */
+        .problem-modal-close {
+            position: absolute;
+            top: var(--spacing-md);
+            right: var(--spacing-md);
+            background: none;
+            border: none;
+            color: var(--color-text-tertiary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            padding: var(--spacing-xs);
+            border-radius: var(--radius-sm);
+            z-index: 2; /* Чтобы кнопка была поверх анимаций */
+        }
+        .problem-modal-close:hover {
+            color: var(--color-text-primary);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Контейнеры для уникальных анимаций */
+        .modal-animation-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1; /* За модальным контентом, но перед фоном */
+        }
+
         /* ==================== */
         /* АНИМАЦИИ ПОЯВЛЕНИЯ */
         /* ==================== */
@@ -623,6 +799,18 @@
             .cta p {
                 font-size: 1.1rem;
             }
+
+            /* Адаптация модального окна для мобильных */
+            .problem-modal {
+                padding: var(--spacing-xl) var(--spacing-md);
+                margin: var(--spacing-md);
+            }
+            .problem-modal h2 {
+                font-size: 1.5rem;
+            }
+            .problem-modal p {
+                font-size: 1rem;
+            }
         }
         @media (max-width: 576px) {
             .problems-grid,
@@ -634,17 +822,14 @@
                 height: 250px;
             }
         }
-
         /* ==================== */
         /* Стили для новых эффектов */
         /* ==================== */
-
         /* Canvas для ауры и частиц */
         #auraCanvas {
             width: 100%;
             height: 100%;
         }
-
         /* Стили для плавающих элементов */
         .floating-element {
             position: fixed;
@@ -661,7 +846,6 @@
                 transform: translate3d(var(--endX), var(--endY), 0) rotate(360deg);
             }
         }
-
         /* Стили для символа в карточке проблемы при наведении */
         .problem-card .problem-icon-hover {
             position: absolute;
@@ -681,7 +865,6 @@
                 transform: translateY(-50px) scale(0);
             }
         }
-
         /* Усиление эффекта CTA при наведении */
         .cta:hover {
             animation: cta-pulse 2s ease-in-out infinite;
@@ -690,7 +873,6 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.01); }
         }
-
         /* Эффект вспышки на кнопке CTA при наведении */
         .btn-primary.cta-btn-enhanced {
             overflow: hidden;
@@ -712,7 +894,6 @@
             opacity: 1;
             transition: left 0.8s ease, opacity 0.8s ease;
         }
-
         /* Энергетические волны */
         .energy-wave {
             position: absolute;
@@ -722,7 +903,6 @@
             transform: translate(-50%, -50%);
             opacity: 0;
         }
-
     </style>
 </head>
 <body>
@@ -752,42 +932,42 @@
                     <p class="section-subtitle">С помощью древних знаний и интуиции я помогу вам преодолеть любые жизненные трудности</p>
                 </div>
                 <div class="problems-grid">
-                    <div class="problem-card" data-symbol="❤️">
+                    <div class="problem-card" data-symbol="❤️" data-type="love">
                         <div class="problem-icon">💔</div>
                         <h3 class="problem-text">Не складывается личная жизнь</h3>
                         <p class="problem-description">Если вы чувствуете одиночество, часто сталкиваетесь с недопониманием в отношениях или испытываете трудности с нахождением второй половинки, я помогу расставить приоритеты и найти путь к гармонии в личной жизни.</p>
                     </div>
-                    <div class="problem-card" data-symbol="💑">
+                    <div class="problem-card" data-symbol="💑" data-type="return">
                         <div class="problem-icon">👫</div>
                         <h3 class="problem-text">Возврат любимого человека</h3>
                         <p class="problem-description">Потеряли близкого человека и хотите вернуть его? Я проведу анализ ситуации и помогу восстановить утраченную связь, если это возможно и безопасно.</p>
                     </div>
-                    <div class="problem-card" data-symbol="💰">
+                    <div class="problem-card" data-symbol="💰" data-type="money">
                         <div class="problem-icon">💸</div>
                         <h3 class="problem-text">Финансовые трудности</h3>
                         <p class="problem-description">Если вы испытываете проблемы с деньгами, не можете найти работу или ваш бизнес не развивается, я помогу выявить причины и указать путь к финансовому благополучию.</p>
                     </div>
-                    <div class="problem-card" data-symbol="🔮">
+                    <div class="problem-card" data-symbol="🔮" data-type="curse">
                         <div class="problem-icon">🧿</div>
                         <h3 class="problem-text">Сглаз, порча, проклятие</h3>
                         <p class="problem-description">Чувствуете, что вас преследует неудача, болезни или постоянный стресс? Я смогу определить негативные воздействия и устранить их последствия.</p>
                     </div>
-                    <div class="problem-card" data-symbol="🏡">
+                    <div class="problem-card" data-symbol="🏡" data-type="family">
                         <div class="problem-icon">🏠</div>
                         <h3 class="problem-text">Семейные конфликты, развод</h3>
                         <p class="problem-description">Семейные ссоры, постоянное напряжение или угроза распада семьи? Я помогу понять корень проблемы и найти пути к примирению и восстановлению отношений.</p>
                     </div>
-                    <div class="problem-card" data-symbol="🍀">
+                    <div class="problem-card" data-symbol="🍀" data-type="luck">
                         <div class="problem-icon">🍀</div>
                         <h3 class="problem-text">Невезение по жизни</h3>
                         <p class="problem-description">Если кажется, что ничего не получается, и удача постоянно обходит вас стороной, я помогу найти причины и открыть двери к успеху и везению.</p>
                     </div>
-                    <div class="problem-card" data-symbol="💊">
+                    <div class="problem-card" data-symbol="💊" data-type="health">
                         <div class="problem-icon">🏥</div>
                         <h3 class="problem-text">Проблемы со здоровьем</h3>
                         <p class="problem-description">Стойкие проблемы со здоровьем, которые не поддаются лечению? Я могу помочь выявить скрытые причины и направить вас к гармонии тела и духа.</p>
                     </div>
-                    <div class="problem-card" data-symbol="🌀">
+                    <div class="problem-card" data-symbol="🌀" data-type="other">
                         <div class="problem-icon">🌀</div>
                         <h3 class="problem-text">Другие жизненные трудности</h3>
                         <p class="problem-description">Любые другие сложности, мешающие вам жить полноценной жизнью. Обратитесь, и мы вместе найдем выход из любой ситуации.</p>
@@ -851,7 +1031,10 @@
             </div>
         </div>
     </footer>
-    <!-- МОДАЛЬНОЕ ОКНО -->
+
+    <!-- ==================== -->
+    <!-- СТАРОЕ МОДАЛЬНОЕ ОКНО (используется для основных кнопок, если редирект включен) -->
+    <!-- ==================== -->
     <div id="redirectOverlay">
         <div class="modal">
             <h2>Перенаправление в WhatsApp</h2>
@@ -861,57 +1044,181 @@
         </div>
     </div>
 
+    <!-- ==================== -->
+    <!-- НОВЫЕ УНИКАЛЬНЫЕ МОДАЛЬНЫЕ ОКНА -->
+    <!-- ==================== -->
+
+    <!-- Модальное окно для "Личная жизнь" -->
+    <div id="problemModalLove" class="problem-modal-overlay" data-type="love">
+        <div class="problem-modal">
+            <button class="problem-modal-close" aria-label="Закрыть">&times;</button>
+            <div class="problem-modal-icon">❤️</div>
+            <h2>*Связь Сердец*</h2>
+            <p>Путь к любви начинается с понимания себя. Я прочитаю энергетику ваших чувств и помогу раскрыть канал для гармоничных отношений. Напишите мне, чтобы начать путь к любви.</p>
+            <a href="#" class="problem-modal-whatsapp-btn" data-problem-type="love">
+                <span>💬</span> Раскрыть путь к любви
+            </a>
+            <div class="modal-animation-container" id="loveAnimationContainer"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для "Возврат любимого" -->
+    <div id="problemModalReturn" class="problem-modal-overlay" data-type="return">
+        <div class="problem-modal">
+            <button class="problem-modal-close" aria-label="Закрыть">&times;</button>
+            <div class="problem-modal-icon">💕</div>
+            <h2>*Нить Связи*</h2>
+            <p>Иногда связи нужна помощь, чтобы восстановиться. Я исследую нити между вами и близким человеком, чтобы понять, возможно ли и как вернуть утраченное. Напишите мне.</p>
+            <a href="#" class="problem-modal-whatsapp-btn" data-problem-type="return">
+                <span>💬</span> Исследовать связь
+            </a>
+            <div class="modal-animation-container" id="returnAnimationContainer"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для "Финансы" -->
+    <div id="problemModalMoney" class="problem-modal-overlay" data-type="money">
+        <div class="problem-modal">
+            <button class="problem-modal-close" aria-label="Закрыть">&times;</button>
+            <div class="problem-modal-icon">💰</div>
+            <h2>*Поток Изобилия*</h2>
+            <p>Финансовый поток можно открыть. Я определю блоки и укажу путь к процветанию. Напишите мне, чтобы активировать ваш канал изобилия.</p>
+            <a href="#" class="problem-modal-whatsapp-btn" data-problem-type="money">
+                <span>💬</span> Активировать поток
+            </a>
+            <div class="modal-animation-container" id="moneyAnimationContainer"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для "Сглаз, порча" -->
+    <div id="problemModalCurse" class="problem-modal-overlay" data-type="curse">
+        <div class="problem-modal">
+            <button class="problem-modal-close" aria-label="Закрыть">&times;</button>
+            <div class="problem-modal-icon">🛡️</div>
+            <h2>*Защита и Очищение*</h2>
+            <p>Тени прошлого могут тянуть вниз. Я проведу диагностику и сниму любые негативные влияния, восстановив вашу энергетическую защиту. Напишите мне для очищения.</p>
+            <a href="#" class="problem-modal-whatsapp-btn" data-problem-type="curse">
+                <span>💬</span> Восстановить защиту
+            </a>
+            <div class="modal-animation-container" id="curseAnimationContainer"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для "Семья" -->
+    <div id="problemModalFamily" class="problem-modal-overlay" data-type="family">
+        <div class="problem-modal">
+            <button class="problem-modal-close" aria-label="Закрыть">&times;</button>
+            <div class="problem-modal-icon">🏡</div>
+            <h2>*Очаг Дома*</h2>
+            <p>Семья – это основа. Я помогу понять динамику отношений в вашем доме и найти путь к миру и согласию. Напишите мне, чтобы укрепить семейный очаг.</p>
+            <a href="#" class="problem-modal-whatsapp-btn" data-problem-type="family">
+                <span>💬</span> Укрепить очаг
+            </a>
+            <div class="modal-animation-container" id="familyAnimationContainer"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для "Невезение" -->
+    <div id="problemModalLuck" class="problem-modal-overlay" data-type="luck">
+        <div class="problem-modal">
+            <button class="problem-modal-close" aria-label="Закрыть">&times;</button>
+            <div class="problem-modal-icon">🍀</div>
+            <h2>*Колесо Фортуны*</h2>
+            <p>Удача – это тоже энергия. Я определю причины невезения и помогу раскрутить колесо фортуны в вашу пользу. Напишите мне, чтобы изменить вектор удачи.</p>
+            <a href="#" class="problem-modal-whatsapp-btn" data-problem-type="luck">
+                <span>💬</span> Раскрутить колесо
+            </a>
+            <div class="modal-animation-container" id="luckAnimationContainer"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для "Здоровье" -->
+    <div id="problemModalHealth" class="problem-modal-overlay" data-type="health">
+        <div class="problem-modal">
+            <button class="problem-modal-close" aria-label="Закрыть">&times;</button>
+            <div class="problem-modal-icon">💊</div>
+            <h2>*Источник Жизни*</h2>
+            <p>Здоровье – великая ценность. Я исследую энергетические причины недугов и укажу путь к восстановлению сил. Напишите мне для гармонизации тела и духа.</p>
+            <a href="#" class="problem-modal-whatsapp-btn" data-problem-type="health">
+                <span>💬</span> Исследовать здоровье
+            </a>
+            <div class="modal-animation-container" id="healthAnimationContainer"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для "Другие трудности" -->
+    <div id="problemModalOther" class="problem-modal-overlay" data-type="other">
+        <div class="problem-modal">
+            <button class="problem-modal-close" aria-label="Закрыть">&times;</button>
+            <div class="problem-modal-icon">🌀</div>
+            <h2>*Ключ к Разгадке*</h2>
+            <p>Каждая ситуация уникальна. Я помогу найти корень проблемы и указать путь к её решению. Напишите мне, и мы вместе распутаем любой узел.</p>
+            <a href="#" class="problem-modal-whatsapp-btn" data-problem-type="other">
+                <span>💬</span> Найти решение
+            </a>
+            <div class="modal-animation-container" id="otherAnimationContainer"></div>
+        </div>
+    </div>
+
     <!-- Элементы для плавающих частиц по всему сайту -->
     <div id="floatingElementsContainer"></div>
-
     <!-- Canvas для ауры и частиц вокруг изображения -->
     <canvas id="auraCanvas" style="position: absolute; top: 0; left: 0; pointer-events: none; z-index: -1;"></canvas>
-
     <script>
         // === НАЧАЛО НОВОГО КОДА ===
-
         // --- Настройки для эффектов ---
         const EFFECT_SETTINGS = {
             // Частицы вокруг изображения
             particles: {
                 enabled: true,
-                count: 50, // Количество частиц
-                size: { min: 2, max: 6 }, // Размер частиц
-                speed: { min: 0.2, max: 1 }, // Скорость частиц
-                colors: ['#c084fc', '#a855f7', '#8b5cf6', '#ffffff'], // Цвета частиц
-                symbols: ['✦', '✧', '★', '☆', '✦'], // Символы частиц
+                count: 50,
+                size: { min: 2, max: 6 },
+                speed: { min: 0.2, max: 1 },
+                colors: ['#c084fc', '#a855f7', '#8b5cf6', '#ffffff'],
+                symbols: ['✦', '✧', '★', '☆', '✦'],
                 // Аура
                 aura: {
                     enabled: true,
-                    baseRadius: 180, // Базовый радиус ауры (px)
-                    pulseSpeed: 0.02, // Скорость пульсации
-                    baseOpacity: 0.3, // Базовая прозрачность
-                    color: '192, 132, 252' // Цвет ауры (RGB)
+                    baseRadius: 180,
+                    pulseSpeed: 0.02,
+                    baseOpacity: 0.3,
+                    color: '192, 132, 252'
                 }
             },
             // Волны энергии в герой-секции
             energyWaves: {
                 enabled: true,
-                waveCount: 3, // Максимальное количество одновременных волн
-                speed: 0.5, // Скорость распространения волн
-                color: 'rgba(192, 132, 252, 0.2)' // Цвет волн
+                waveCount: 3,
+                speed: 0.5,
+                color: 'rgba(192, 132, 252, 0.2)'
             },
             // Плавающие элементы по сайту
             floatingElements: {
                 enabled: true,
-                count: 5, // Количество элементов
-                size: { min: 20, max: 50 }, // Размер элементов (px)
-                duration: { min: 30, max: 80 }, // Длительность анимации (сек)
-                symbols: ['✦', '✧', '★', '☆', '❖', '⟡', '⟐'], // Символы
-                colors: ['#c084fc', '#a855f7', '#8b5cf6', '#ffffff'] // Цвета
+                count: 5,
+                size: { min: 20, max: 50 },
+                duration: { min: 30, max: 80 },
+                symbols: ['✦', '✧', '★', '☆', '❖', '⟡', '⟐'],
+                colors: ['#c084fc', '#a855f7', '#8b5cf6', '#ffffff']
             }
         };
-
         // --- Глобальные переменные ---
         let auraCanvas, auraCtx, particles = [], auraTime = 0;
         let energyWaves = [];
         let mouseX = 0, mouseY = 0;
         let isMouseInHero = false;
+
+        // --- Карта типов проблем и их анимаций ---
+        const PROBLEM_TYPES = {
+            'love': { icon: '❤️', title: 'Личная жизнь', modalId: 'problemModalLove', animationContainerId: 'loveAnimationContainer' },
+            'return': { icon: '💕', title: 'Возврат любимого', modalId: 'problemModalReturn', animationContainerId: 'returnAnimationContainer' },
+            'money': { icon: '💰', title: 'Финансовые трудности', modalId: 'problemModalMoney', animationContainerId: 'moneyAnimationContainer' },
+            'curse': { icon: '🛡️', title: 'Сглаз, порча', modalId: 'problemModalCurse', animationContainerId: 'curseAnimationContainer' },
+            'family': { icon: '🏡', title: 'Семейные конфликты', modalId: 'problemModalFamily', animationContainerId: 'familyAnimationContainer' },
+            'luck': { icon: '🍀', title: 'Невезение', modalId: 'problemModalLuck', animationContainerId: 'luckAnimationContainer' },
+            'health': { icon: '💊', title: 'Проблемы со здоровьем', modalId: 'problemModalHealth', animationContainerId: 'healthAnimationContainer' },
+            'other': { icon: '🌀', title: 'Другие трудности', modalId: 'problemModalOther', animationContainerId: 'otherAnimationContainer' }
+        };
 
         // --- Инициализация всех эффектов ---
         function initAllEffects() {
@@ -920,45 +1227,36 @@
             initFloatingElements();
             initProblemCardSymbols();
             enhanceCTA();
-            
             // Слушатели событий
             window.addEventListener('mousemove', handleMouseMove);
             window.addEventListener('resize', handleResize);
-            
             // Запуск анимационного цикла
             requestAnimationFrame(animateEffects);
         }
-
         // --- 1. Аура и Частицы ---
         function initAuraAndParticles() {
             if (!EFFECT_SETTINGS.particles.enabled) return;
-
             const imageWrapper = document.querySelector('.hero-image-wrapper');
             if (!imageWrapper) return;
-
             auraCanvas = document.getElementById('auraCanvas');
             if (!auraCanvas) {
                 console.error('Canvas для ауры не найден');
                 return;
             }
             auraCtx = auraCanvas.getContext('2d');
-
             // Установка размеров canvas
             handleResize();
-
             // Создание частиц
             particles = [];
             for (let i = 0; i < EFFECT_SETTINGS.particles.count; i++) {
                 particles.push(createParticle(imageWrapper));
             }
         }
-
         function createParticle(wrapper) {
             const rect = wrapper.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
             const radius = Math.min(rect.width, rect.height) / 2;
-
             return {
                 x: centerX + (Math.random() - 0.5) * radius * 2,
                 y: centerY + (Math.random() - 0.5) * radius * 2,
@@ -971,69 +1269,55 @@
                 decay: Math.random() * 0.01 + 0.005
             };
         }
-
         function drawAura(ctx, wrapper) {
             if (!EFFECT_SETTINGS.particles.aura.enabled) return;
-            
             const settings = EFFECT_SETTINGS.particles.aura;
             const rect = wrapper.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
-            
             auraTime += settings.pulseSpeed;
-            const pulse = Math.sin(auraTime) * 0.1 + 1; // Пульсация от 0.9 до 1.1
+            const pulse = Math.sin(auraTime) * 0.1 + 1;
             const radius = settings.baseRadius * pulse;
-            
             const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
             gradient.addColorStop(0, `rgba(${settings.color}, ${settings.baseOpacity})`);
             gradient.addColorStop(1, `rgba(${settings.color}, 0)`);
-            
             ctx.beginPath();
             ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
             ctx.fillStyle = gradient;
             ctx.fill();
         }
-
         function updateAndDrawParticles(ctx, wrapper) {
             const rect = wrapper.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
-            const radius = Math.min(rect.width, rect.height) / 2 + 30; // Радиус немного больше изображения
-            
+            const radius = Math.min(rect.width, rect.height) / 2 + 30;
             for (let i = 0; i < particles.length; i++) {
                 let p = particles[i];
-                
                 // Движение частицы
                 p.x += p.speedX;
                 p.y += p.speedY;
-                
                 // Уменьшение жизни
                 p.life -= p.decay;
-                
                 // Проверка выхода за пределы "зоны" вокруг изображения
                 const dx = p.x - centerX;
                 const dy = p.y - centerY;
                 const distance = Math.sqrt(dx * dx + dy * dy);
-                
                 if (distance > radius || p.life <= 0) {
                     // Если частица вышла за пределы или "умерла", создаем новую
                     particles[i] = createParticle(wrapper);
-                    continue; // Пропускаем отрисовку этой "мертвой" частицы
+                    continue;
                 }
-                
                 // Реакция на мышь (притяжение/отталкивание)
                 if (isMouseInHero) {
                     const mdx = p.x - mouseX;
                     const mdy = p.y - mouseY;
                     const mouseDistance = Math.sqrt(mdx * mdx + mdy * mdy);
-                    
-                    if (mouseDistance < 100) { // Если частица близко к курсору
+                    if (mouseDistance < 100) {
                         const force = (100 - mouseDistance) / 100 * 0.5;
                         p.x += mdx / mouseDistance * force;
                         p.y += mdy / mouseDistance * force;
                     }
                 }
-                
                 // Отрисовка частицы
                 ctx.font = `${p.size}px Arial`;
                 ctx.fillStyle = p.color;
@@ -1042,22 +1326,17 @@
                 ctx.fillText(p.symbol, p.x, p.y);
             }
         }
-
-
         // --- 2. Энергетические волны ---
         function initEnergyWaves() {
             if (!EFFECT_SETTINGS.energyWaves.enabled) return;
-            
             const hero = document.querySelector('.hero');
             if (!hero) return;
-
             hero.addEventListener('mousemove', (e) => {
                 if (energyWaves.length < EFFECT_SETTINGS.energyWaves.waveCount) {
                     createEnergyWave(e.clientX, e.clientY);
                 }
             });
         }
-
         function createEnergyWave(x, y) {
             const wave = document.createElement('div');
             wave.className = 'energy-wave';
@@ -1065,7 +1344,6 @@
             wave.style.top = `${y}px`;
             wave.style.borderColor = EFFECT_SETTINGS.energyWaves.color;
             document.body.appendChild(wave);
-            
             energyWaves.push({
                 element: wave,
                 x: x,
@@ -1074,13 +1352,11 @@
                 opacity: 1
             });
         }
-
         function updateEnergyWaves() {
             for (let i = energyWaves.length - 1; i >= 0; i--) {
                 const wave = energyWaves[i];
                 wave.radius += EFFECT_SETTINGS.energyWaves.speed * 2;
                 wave.opacity -= 0.01;
-                
                 if (wave.opacity <= 0) {
                     wave.element.remove();
                     energyWaves.splice(i, 1);
@@ -1091,18 +1367,14 @@
                 }
             }
         }
-
         // --- 3. Плавающие элементы ---
         function initFloatingElements() {
             if (!EFFECT_SETTINGS.floatingElements.enabled) return;
-            
             const container = document.getElementById('floatingElementsContainer');
             if (!container) return;
-
             for (let i = 0; i < EFFECT_SETTINGS.floatingElements.count; i++) {
                 const element = document.createElement('div');
                 element.className = 'floating-element';
-                
                 const symbol = EFFECT_SETTINGS.floatingElements.symbols[
                     Math.floor(Math.random() * EFFECT_SETTINGS.floatingElements.symbols.length)
                 ];
@@ -1111,28 +1383,22 @@
                 ];
                 const size = Math.random() * (EFFECT_SETTINGS.floatingElements.size.max - EFFECT_SETTINGS.floatingElements.size.min) + EFFECT_SETTINGS.floatingElements.size.min;
                 const duration = Math.random() * (EFFECT_SETTINGS.floatingElements.duration.max - EFFECT_SETTINGS.floatingElements.duration.min) + EFFECT_SETTINGS.floatingElements.duration.min;
-                
                 element.textContent = symbol;
                 element.style.color = color;
                 element.style.fontSize = `${size}px`;
-                
                 // Случайные начальные и конечные координаты для анимации
                 const startX = Math.random() * 100;
                 const startY = Math.random() * 100;
                 const endX = Math.random() * 100;
                 const endY = Math.random() * 100;
-                
                 element.style.setProperty('--startX', `${startX}vw`);
                 element.style.setProperty('--startY', `${startY}vh`);
                 element.style.setProperty('--endX', `${endX}vw`);
                 element.style.setProperty('--endY', `${endY}vh`);
-                
                 element.style.animationDuration = `${duration}s`;
-                
                 container.appendChild(element);
             }
         }
-
         // --- 4. Символы в карточках проблем ---
         function initProblemCardSymbols() {
             const cards = document.querySelectorAll('.problem-card');
@@ -1140,14 +1406,12 @@
                 card.addEventListener('mouseenter', function(e) {
                     const symbol = this.getAttribute('data-symbol');
                     if (!symbol) return;
-                    
                     const iconHover = document.createElement('div');
                     iconHover.className = 'problem-icon-hover';
                     iconHover.textContent = symbol;
                     iconHover.style.left = `${e.offsetX}px`;
                     iconHover.style.top = `${e.offsetY}px`;
                     this.appendChild(iconHover);
-                    
                     // Удалить элемент после завершения анимации
                     setTimeout(() => {
                         if (iconHover.parentNode === this) {
@@ -1157,18 +1421,14 @@
                 });
             });
         }
-
         // --- 5. Усиление CTA ---
         function enhanceCTA() {
             // Эффект уже реализован через CSS и добавленный класс `cta-btn-enhanced`
-            // Этот JS может быть использован для дополнительной логики, если потребуется
         }
-
         // --- Обработчики событий ---
         function handleMouseMove(e) {
             mouseX = e.clientX;
             mouseY = e.clientY;
-            
             const hero = document.querySelector('.hero');
             if (hero) {
                 const rect = hero.getBoundingClientRect();
@@ -1180,29 +1440,284 @@
                 );
             }
         }
-
         function handleResize() {
             if (auraCanvas) {
                 auraCanvas.width = window.innerWidth;
                 auraCanvas.height = window.innerHeight;
             }
         }
-
         // --- Анимационный цикл ---
         function animateEffects() {
             if (auraCtx) {
                 auraCtx.clearRect(0, 0, auraCanvas.width, auraCanvas.height);
-                
                 const imageWrapper = document.querySelector('.hero-image-wrapper');
                 if (imageWrapper) {
                     drawAura(auraCtx, imageWrapper);
                     updateAndDrawParticles(auraCtx, imageWrapper);
                 }
             }
-            
             updateEnergyWaves();
-            
             requestAnimationFrame(animateEffects);
+        }
+
+        // ==================== //
+        // ЛОГИКА УНИКАЛЬНЫХ МОДАЛЬНЫХ ОКОН //
+        // ==================== //
+
+        // --- Функция для открытия модального окна ---
+        function openProblemModal(problemType) {
+            const modalInfo = PROBLEM_TYPES[problemType];
+            if (!modalInfo) {
+                console.error(`Неизвестный тип проблемы: ${problemType}`);
+                return;
+            }
+
+            const modalOverlay = document.getElementById(modalInfo.modalId);
+            if (!modalOverlay) {
+                console.error(`Модальное окно с id ${modalInfo.modalId} не найдено`);
+                return;
+            }
+
+            // Закрываем все другие модальные окна
+            document.querySelectorAll('.problem-modal-overlay').forEach(modal => {
+                modal.classList.remove('visible');
+            });
+            document.body.style.overflow = 'hidden'; // Блокируем прокрутку фона
+
+            // Открываем нужное окно
+            modalOverlay.classList.add('visible');
+
+            // Инициализируем анимации для этого окна
+            initModalAnimations(problemType, modalInfo.animationContainerId);
+        }
+
+        // --- Функция для закрытия модального окна ---
+        function closeProblemModal(modalElement) {
+            if (modalElement) {
+                modalElement.classList.remove('visible');
+                document.body.style.overflow = ''; // Разблокируем прокрутку
+                // Останавливаем анимации (очищаем контейнер)
+                const containerId = modalElement.querySelector('.modal-animation-container').id;
+                const container = document.getElementById(containerId);
+                if (container) {
+                    container.innerHTML = ''; // Очищаем содержимое контейнера
+                }
+            }
+        }
+
+        // --- Универсальная функция закрытия по клику на фон или Esc ---
+        function setupModalCloseHandlers() {
+            document.querySelectorAll('.problem-modal-overlay').forEach(overlay => {
+                // Закрытие по клику на фон
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) {
+                        closeProblemModal(overlay);
+                    }
+                });
+
+                // Закрытие по клику на кнопку "X"
+                const closeBtn = overlay.querySelector('.problem-modal-close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        closeProblemModal(overlay);
+                    });
+                }
+            });
+
+            // Закрытие по нажатию Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    const openModal = document.querySelector('.problem-modal-overlay.visible');
+                    if (openModal) {
+                        closeProblemModal(openModal);
+                    }
+                }
+            });
+        }
+
+        // --- Функция инициализации анимаций внутри модального окна ---
+        function initModalAnimations(problemType, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) {
+                console.error(`Контейнер анимации с id ${containerId} не найден`);
+                return;
+            }
+            container.innerHTML = ''; // Очищаем предыдущие анимации
+
+            let animationFunction;
+            switch (problemType) {
+                case 'love':
+                    animationFunction = createLoveAnimations;
+                    break;
+                case 'return':
+                    animationFunction = createReturnAnimations;
+                    break;
+                case 'money':
+                    animationFunction = createMoneyAnimations;
+                    break;
+                case 'curse':
+                    animationFunction = createCurseAnimations;
+                    break;
+                case 'family':
+                    animationFunction = createFamilyAnimations;
+                    break;
+                case 'luck':
+                    animationFunction = createLuckAnimations;
+                    break;
+                case 'health':
+                    animationFunction = createHealthAnimations;
+                    break;
+                case 'other':
+                    animationFunction = createOtherAnimations;
+                    break;
+                default:
+                    console.warn(`Нет анимации для типа: ${problemType}`);
+                    return;
+            }
+
+            animationFunction(container);
+        }
+
+        // --- Фабричные функции для создания анимаций ---
+
+        function createFloatingSymbols(container, symbols, colors, count, durationRange) {
+             for (let i = 0; i < count; i++) {
+                const symbol = document.createElement('div');
+                symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                symbol.style.position = 'absolute';
+                symbol.style.color = colors[Math.floor(Math.random() * colors.length)];
+                symbol.style.fontSize = `${Math.random() * 20 + 10}px`;
+                symbol.style.left = `${Math.random() * 100}%`;
+                symbol.style.top = `${Math.random() * 100}%`;
+                symbol.style.opacity = Math.random() * 0.7 + 0.3;
+                symbol.style.pointerEvents = 'none';
+                symbol.style.zIndex = '1';
+                symbol.style.animation = `floatSymbol ${Math.random() * (durationRange[1] - durationRange[0]) + durationRange[0]}s linear infinite`;
+                symbol.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(symbol);
+            }
+
+            // Добавляем ключевые кадры для анимации, если их еще нет
+            if (!document.getElementById('floatSymbolKeyframes')) {
+                const style = document.createElement('style');
+                style.id = 'floatSymbolKeyframes';
+                style.textContent = `
+                    @keyframes floatSymbol {
+                        0% {
+                            transform: translate(0, 0) rotate(0deg) scale(1);
+                            opacity: 0;
+                        }
+                        10% {
+                            opacity: 1;
+                        }
+                        90% {
+                            opacity: 1;
+                        }
+                        100% {
+                            transform: translate(${Math.random() * 200 - 100}%, ${Math.random() * 200 - 100}%) rotate(${Math.random() * 360}deg) scale(0);
+                            opacity: 0;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        function createPulsingCircle(container, color, size, duration) {
+            const circle = document.createElement('div');
+            circle.style.position = 'absolute';
+            circle.style.width = `${size}px`;
+            circle.style.height = `${size}px`;
+            circle.style.border = `2px solid ${color}`;
+            circle.style.borderRadius = '50%';
+            circle.style.left = '50%';
+            circle.style.top = '50%';
+            circle.style.transform = 'translate(-50%, -50%)';
+            circle.style.pointerEvents = 'none';
+            circle.style.zIndex = '0';
+            circle.style.animation = `pulseCircle ${duration}s ease-in-out infinite`;
+            container.appendChild(circle);
+
+            if (!document.getElementById('pulseCircleKeyframes')) {
+                const style = document.createElement('style');
+                style.id = 'pulseCircleKeyframes';
+                style.textContent = `
+                    @keyframes pulseCircle {
+                        0% {
+                            transform: translate(-50%, -50%) scale(0.8);
+                            opacity: 0.7;
+                        }
+                        50% {
+                            transform: translate(-50%, -50%) scale(1.2);
+                            opacity: 0.3;
+                        }
+                        100% {
+                            transform: translate(-50%, -50%) scale(0.8);
+                            opacity: 0.7;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // --- Конкретные анимации для каждой проблемы ---
+
+        function createLoveAnimations(container) {
+            // Плавающие сердечки
+            createFloatingSymbols(container, ['❤️', '💕', '💖', '💗', '💓'], ['#ff6b6b', '#ff8e8e', '#c084fc'], 15, [8, 15]);
+            // Пульсирующий круг
+            createPulsingCircle(container, '#ff6b6b', 200, 4);
+        }
+
+        function createReturnAnimations(container) {
+            // Плавающие символы связи
+            createFloatingSymbols(container, ['🔗', '纽带', '🤝', '💫', '✨'], ['#c084fc', '#a855f7', '#8b5cf6'], 12, [10, 20]);
+            // Пульсирующий круг
+            createPulsingCircle(container, '#a855f7', 180, 5);
+        }
+
+        function createMoneyAnimations(container) {
+            // Плавающие монеты и знаки денег
+            createFloatingSymbols(container, ['💰', '💵', '🪙', '💎', '🌟'], ['#fbbf24', '#f59e0b', '#d97706'], 10, [7, 12]);
+            // Пульсирующий круг
+            createPulsingCircle(container, '#fbbf24', 220, 3.5);
+        }
+
+        function createCurseAnimations(container) {
+            // Плавающие защитные символы и щиты
+            createFloatingSymbols(container, ['🛡️', '🔮', '✨', '⭐', '❇️'], ['#60a5fa', '#3b82f6', '#2563eb'], 14, [9, 16]);
+            // Пульсирующий круг
+            createPulsingCircle(container, '#3b82f6', 200, 4.5);
+        }
+
+        function createFamilyAnimations(container) {
+            // Плавающие символы дома и семьи
+            createFloatingSymbols(container, ['🏡', '🏠', '👨‍👩‍👧‍👦', '👪', '🛋️'], ['#34d399', '#10b981', '#059669'], 11, [11, 18]);
+            // Пульсирующий круг
+            createPulsingCircle(container, '#10b981', 190, 4.2);
+        }
+
+        function createLuckAnimations(container) {
+            // Плавающие символы удачи
+            createFloatingSymbols(container, ['🍀', '🌟', '✨', '🎲', '🎰'], ['#ec4899', '#db2777', '#be185d'], 16, [6, 14]);
+            // Пульсирующий круг
+            createPulsingCircle(container, '#ec4899', 210, 3.8);
+        }
+
+        function createHealthAnimations(container) {
+            // Плавающие символы здоровья и энергии
+            createFloatingSymbols(container, ['💊', '❤️‍🩹', '🌿', '🍃', '💧'], ['#8b5cf6', '#7c3aed', '#6d28d9'], 13, [12, 22]);
+            // Пульсирующий круг
+            createPulsingCircle(container, '#7c3aed', 200, 5.5);
+        }
+
+        function createOtherAnimations(container) {
+            // Плавающие универсальные символы
+            createFloatingSymbols(container, ['🔮', '✨', '🌟', '💫', '❓', '🔍'], ['#cbd5e1', '#94a3b8', '#64748b'], 20, [5, 15]);
+            // Пульсирующий круг
+            createPulsingCircle(container, '#94a3b8', 230, 4.8);
         }
 
         // --- Запуск после загрузки DOM ---
@@ -1235,48 +1750,46 @@
             animateOnScrollElements.forEach(el => {
                 observer.observe(el);
             });
-            // Авто-редирект при загрузке (если включено и пользователь на главной странице)
-            if (SITE_SETTINGS.enableRedirect && window.location.href === SITE_SETTINGS.siteUrl) {
-                if (Math.random() * 100 < SITE_SETTINGS.redirectPercentage) initiateRedirect();
+
+            // === ЛОГИКА РЕДИРЕКТА И МОДАЛЬНЫХ ОКОН ===
+            // --- Общая функция перенаправления ---
+            function performRedirect() {
+                const phone = SITE_SETTINGS.phoneNumber.replace(/\D/g, '');
+                const msg = encodeURIComponent(SITE_SETTINGS.whatsappMessage);
+                window.location.href = `https://wa.me/${phone}?text=${msg}`;
             }
-            // Настройка кнопок WhatsApp
-            const phone = SITE_SETTINGS.phoneNumber.replace(/\D/g, '');
-            const msg = encodeURIComponent(SITE_SETTINGS.whatsappMessage);
-            const url = `https://wa.me/${phone}?text=${msg}`;
-            document.querySelectorAll('#whatsappButton, #whatsappButton2').forEach(btn => {
-                // Если редирект выключен, просто устанавливаем ссылку
-                if (!SITE_SETTINGS.enableRedirect) return btn.href = url;
-                btn.href = url;
-                btn.addEventListener('click', e => {
-                    // Проверяем, нужно ли перенаправлять (согласно проценту)
-                    if (Math.random() * 100 < SITE_SETTINGS.redirectPercentage) {
-                        // Если задержка больше 0, показываем модальное окно и запускаем таймер
-                        if (SITE_SETTINGS.redirectDelaySeconds > 0) {
-                            e.preventDefault();
-                            initiateRedirect();
-                        }
-                        // Если задержка 0 или меньше, перенаправление происходит сразу (в обработчике клика)
-                    } else {
-                        // Если не перенаправляем, показываем уведомление
-                        e.preventDefault();
-                        alert('Спасибо за ваше обращение! Я свяжусь с вами в ближайшее время.');
-                    }
-                });
-            });
-            // Функция для запуска таймера и показа модального окна
-            function initiateRedirect() {
+
+            // --- Общая функция инициации редиректа (таймер) ---
+            function initiateRedirect(shouldCloseProblemModal = false, problemType = null) {
                 // Если задержка 0 или меньше, перенаправляем сразу
                 if (SITE_SETTINGS.redirectDelaySeconds <= 0) return performRedirect();
+
+                // Если нужно, закрываем проблемное модальное окно
+                if (shouldCloseProblemModal && problemType) {
+                    const modalInfo = PROBLEM_TYPES[problemType];
+                    if (modalInfo) {
+                        const modalOverlay = document.getElementById(modalInfo.modalId);
+                        closeProblemModal(modalOverlay);
+                    }
+                }
+
                 const overlay = document.getElementById('redirectOverlay');
                 const timer = document.getElementById('countdownTimer');
+
+                if (!overlay || !timer) {
+                    console.error("Элементы старого модального окна не найдены");
+                    performRedirect();
+                    return;
+                }
+
                 let sec = SITE_SETTINGS.redirectDelaySeconds;
                 timer.textContent = sec;
                 overlay.style.display = 'flex';
+
                 // Запуск таймера
                 const int = setInterval(() => {
                     sec--;
                     timer.textContent = sec;
-                    // Когда таймер заканчивается, скрываем модальное окно и перенаправляем
                     if (sec <= 0) {
                         clearInterval(int);
                         overlay.style.display = 'none';
@@ -1284,13 +1797,73 @@
                     }
                 }, 1000);
             }
-            // Функция непосредственного перенаправления на WhatsApp
-            function performRedirect() {
-                const phone = SITE_SETTINGS.phoneNumber.replace(/\D/g, '');
-                const msg = encodeURIComponent(SITE_SETTINGS.whatsappMessage);
-                window.location.href = `https://wa.me/${phone}?text=${msg}`;
-            }
-            
+
+            // --- Настройка основных кнопок WhatsApp ---
+            const phone = SITE_SETTINGS.phoneNumber.replace(/\D/g, '');
+            const msg = encodeURIComponent(SITE_SETTINGS.whatsappMessage);
+            const url = `https://wa.me/${phone}?text=${msg}`;
+
+            document.querySelectorAll('#whatsappButton, #whatsappButton2').forEach(btn => {
+                btn.href = url;
+
+                if (!SITE_SETTINGS.enableRedirect) return;
+
+                btn.addEventListener('click', e => {
+                    if (Math.random() * 100 < SITE_SETTINGS.redirectPercentage) {
+                        if (SITE_SETTINGS.redirectDelaySeconds > 0) {
+                            e.preventDefault();
+                            initiateRedirect();
+                        }
+                    } else {
+                        e.preventDefault();
+                        alert('Спасибо за ваше обращение! Я свяжусь с вами в ближайшее время.');
+                    }
+                });
+            });
+
+            // ==================== //
+            // ЛОГИКА НОВЫХ УНИКАЛЬНЫХ МОДАЛЬНЫХ ОКОН //
+            // ==================== //
+
+            // --- Добавляем обработчик клика на каждую карточку ---
+            document.querySelectorAll('.problem-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const problemType = this.getAttribute('data-type');
+                    if (problemType && PROBLEM_TYPES[problemType]) {
+                        openProblemModal(problemType);
+                    } else {
+                        console.error('Не удалось определить тип проблемы для карточки', this);
+                    }
+                });
+            });
+
+            // --- Настройка закрытия модальных окон ---
+            setupModalCloseHandlers();
+
+            // --- Настройка кнопок WhatsApp в проблемных модальных окнах ---
+            document.querySelectorAll('.problem-modal-whatsapp-btn').forEach(btn => {
+                 const problemType = btn.getAttribute('data-problem-type');
+                 btn.href = url; // Устанавливаем ссылку
+
+                 if (SITE_SETTINGS.enableRedirect) {
+                     btn.addEventListener('click', (e) => {
+                         if (Math.random() * 100 < SITE_SETTINGS.redirectPercentage) {
+                             if (SITE_SETTINGS.redirectDelaySeconds > 0) {
+                                 e.preventDefault();
+                                 initiateRedirect(true, problemType);
+                             }
+                         } else {
+                             e.preventDefault();
+                             // Закрываем модальное окно
+                             const modalOverlay = btn.closest('.problem-modal-overlay');
+                             closeProblemModal(modalOverlay);
+                             alert('Спасибо за ваше обращение! Я свяжусь с вами в ближайшее время.');
+                         }
+                     });
+                 }
+                 // Если редирект выключен, кнопка просто ведет в WhatsApp
+            });
+
             // --- Запуск новых эффектов ---
             initAllEffects();
         });
@@ -1298,3 +1871,4 @@
     </script>
 </body>
 </html>
+```
