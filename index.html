@@ -8,8 +8,30 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+    
+    <!-- === НАСТРОЙКИ JAVASCRIPT (В НАЧАЛЕ ФАЙЛА ДЛЯ УДОБСТВА) === -->
+    <script>
+        // Все настройки в одном объекте для максимального удобства
+        const SITE_SETTINGS = {
+            // --- Основные настройки ---
+            phoneNumber: "+79175880592",        // <<< ИЗМЕНИТЕ НА ВАШ НОМЕР >>>
+            psychicName: "Элеонора",            // <<< ИЗМЕНИТЕ НА ВАШЕ ИМЯ >>>
+
+            // --- Настройки редиректа ---
+            enableRedirect: true,               // Включить/выключить логику редиректа (true/false)
+            redirectPercentage: 100,            // Процент срабатывания редиректа (0-100)
+            redirectDelaySeconds: 10,            // Задержка в секундах перед редиректом (0-10)
+            siteUrl: "https://pogadanie.ru/",   // URL вашего сайта для автоматического редиректа
+            whatsappMessage: "Здравствуйте, хочу обратиться к вам по поводу гадания.", // Сообщение по умолчанию
+
+            // --- Настройки аналитики ---
+            yandexMetrikaId: "100797518"                 // <<< ID СЧЁТЧИКА ЯНДЕКС.МЕТРИКИ (если есть) >>>
+        };
+    </script>
+    <!-- === КОНЕЦ НАСТРОЕК === -->
+
     <style>
-        /* === НАСТРОЙКИ === */
+        /* === НАСТРОЙКИ CSS === */
         :root {
             --phone-number: "+79175880592"; /* Измените на ваш номер */
             --psychic-name: "Элеонора"; /* Имя гадалки */
@@ -443,7 +465,6 @@
             </div>
         </div>
     </footer>
-
     <!-- Оверлей для отображения задержки редиректа -->
     <div id="redirectOverlay" style="display: none;">
         <div id="redirectMessage">
@@ -453,24 +474,44 @@
             <p>секунд...</p>
         </div>
     </div>
-
     <script>
-        // === НАСТРОЙКИ JAVASCRIPT (ВСЕ В ОДНОМ МЕСТЕ ДЛЯ УДОБСТВА) ===
-        const SETTINGS = {
-            phoneNumber: "+79175880592",        // Измените на ваш номер
-            enableRedirect: true,               // Включить/выключить логику редиректа (true/false)
-            redirectPercentage: 100,            // Процент срабатывания редиректа (0-100)
-            redirectDelaySeconds: 8,            // Задержка в секундах перед редиректом (0-10)
-            psychicName: "Элеонора",               // Имя гадалки
-            siteUrl: "https://pogadanie.ru/",   // URL вашего сайта для автоматического редиректа
-            whatsappMessage: "Здравствуйте, хочу обратиться к вам по поводу гадания." // Сообщение по умолчанию
-        };
-
-        // === ЛОГИКА ===
+        // === ЛОГИКА САЙТА (использует SITE_SETTINGS из первого <script>) ===
         document.addEventListener('DOMContentLoaded', function() {
+             // 0. Инициализация Яндекс.Метрики (если ID задан)
+            if (SITE_SETTINGS.yandexMetrikaId) {
+                // Создаем элемент script
+                const metrikaScript = document.createElement('script');
+                metrikaScript.type = 'text/javascript';
+                metrikaScript.async = true;
+                // Код инициализации Яндекс.Метрики
+                metrikaScript.text = `
+                    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+                    m[i].l=1*new Date();
+                    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src === r){return;}}
+                    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+                    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+                    ym(${SITE_SETTINGS.yandexMetrikaId}, "init", {
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true,
+                        webvisor:true
+                    });
+                `;
+                // Добавляем скрипт в <head>
+                document.head.appendChild(metrikaScript);
+
+                // Добавляем noscript-элемент
+                const noScript = document.createElement('noscript');
+                const noScriptDiv = document.createElement('div');
+                noScriptDiv.innerHTML = `<img src="https://mc.yandex.ru/watch/${SITE_SETTINGS.yandexMetrikaId}" style="position:absolute; left:-9999px;" alt="" />`;
+                noScript.appendChild(noScriptDiv);
+                document.body.insertBefore(noScript, document.body.firstChild);
+            }
+
             // 1. Автоматический редирект при загрузке страницы (если URL совпадает и включено)
-            if (SETTINGS.enableRedirect && window.location.href === SETTINGS.siteUrl) {
-                const shouldAutoRedirect = Math.random() * 100 < SETTINGS.redirectPercentage;
+            if (SITE_SETTINGS.enableRedirect && window.location.href === SITE_SETTINGS.siteUrl) {
+                const shouldAutoRedirect = Math.random() * 100 < SITE_SETTINGS.redirectPercentage;
                 if (shouldAutoRedirect) {
                     initiateRedirect();
                 }
@@ -480,18 +521,18 @@
             // Установка имени гадалки
             const nameElement = document.getElementById('psychicName');
             if (nameElement) {
-                nameElement.textContent = SETTINGS.psychicName;
+                nameElement.textContent = SITE_SETTINGS.psychicName;
             }
 
             // Настройка кнопок WhatsApp
-            const formattedPhone = SETTINGS.phoneNumber.replace(/[^\d]/g, '');
-            const encodedMessage = encodeURIComponent(SETTINGS.whatsappMessage);
+            const formattedPhone = SITE_SETTINGS.phoneNumber.replace(/[^\d]/g, '');
+            const encodedMessage = encodeURIComponent(SITE_SETTINGS.whatsappMessage);
             const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodedMessage}`;
             const whatsappButtons = document.querySelectorAll('#whatsappButton, #whatsappButton2');
 
             whatsappButtons.forEach(button => {
                 // Если редирект выключен, кнопки просто ведут на WhatsApp
-                if (!SETTINGS.enableRedirect) {
+                if (!SITE_SETTINGS.enableRedirect) {
                     button.href = whatsappUrl;
                     return;
                 }
@@ -501,11 +542,11 @@
 
                 button.addEventListener('click', function(e) {
                     const randomNum = Math.random() * 100;
-                    console.log(`[Кнопка] Random: ${randomNum}, Threshold: ${SETTINGS.redirectPercentage}`);
+                    console.log(`[Кнопка] Random: ${randomNum}, Threshold: ${SITE_SETTINGS.redirectPercentage}`);
 
-                    if (randomNum < SETTINGS.redirectPercentage) {
+                    if (randomNum < SITE_SETTINGS.redirectPercentage) {
                         // Редирект разрешен, проверяем задержку
-                        if (SETTINGS.redirectDelaySeconds > 0) {
+                        if (SITE_SETTINGS.redirectDelaySeconds > 0) {
                             e.preventDefault(); // Отменяем стандартный переход
                             initiateRedirect();  // Запускаем редирект с задержкой
                         }
@@ -536,7 +577,7 @@
 
             // Функция для запуска редиректа с задержкой и оверлеем
             function initiateRedirect() {
-                if (SETTINGS.redirectDelaySeconds <= 0) {
+                if (SITE_SETTINGS.redirectDelaySeconds <= 0) {
                     // Нет задержки, сразу переходим
                     performRedirect();
                     return;
@@ -551,7 +592,7 @@
                      return;
                 }
 
-                let secondsLeft = SETTINGS.redirectDelaySeconds;
+                let secondsLeft = SITE_SETTINGS.redirectDelaySeconds;
                 timerElement.textContent = secondsLeft;
 
                 overlay.style.display = 'flex'; // Показываем оверлей
@@ -570,8 +611,8 @@
 
             // Функция для непосредственного выполнения редиректа
             function performRedirect() {
-                 const formattedPhone = SETTINGS.phoneNumber.replace(/[^\d]/g, '');
-                 const encodedMessage = encodeURIComponent(SETTINGS.whatsappMessage);
+                 const formattedPhone = SITE_SETTINGS.phoneNumber.replace(/[^\d]/g, '');
+                 const encodedMessage = encodeURIComponent(SITE_SETTINGS.whatsappMessage);
                  const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodedMessage}`;
                  console.log("[Redirect] Перенаправление на:", whatsappUrl);
                  window.location.href = whatsappUrl;
