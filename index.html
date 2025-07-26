@@ -10,15 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
     <script>
         const SITE_SETTINGS = {
-            phoneNumber: "+79175880592", // Номер телефона для WhatsApp
-            psychicName: "Элеонора", // Имя гадалки
-            enableRedirect: false, // true Включить ли автоматический редирект на WhatsApp
-            redirectPercentage: 100, // Процент пользователей, которых перенаправляют (0-100)
-            redirectDelaySeconds: 10, // Задержка в секундах перед редиректом
-            siteUrl: "https://pogadanie.ru/", // URL сайта (используется для авто-редиректа при загрузке)
-            whatsappMessage: "Здравствуйте, хочу обратиться к вам по поводу гадания.", // Сообщение по умолчанию в WhatsApp
-            yandexMetrikaId: "100797518", // ID Яндекс.Метрики
-            // 🔮 Квадратное сток-фото гадалки
+            phoneNumber: "+79175880592",
+            psychicName: "Элеонора",
+            enableRedirect: false,
+            redirectPercentage: 100,
+            redirectDelaySeconds: 10,
+            siteUrl: "https://pogadanie.ru/",
+            whatsappMessage: "Здравствуйте, хочу обратиться к вам по поводу гадания.",
+            yandexMetrikaId: "100797518",
             psychicImageURL: "https://raw.githubusercontent.com/antomimpuls/gadalka01/main/1%20(240).jpg"
         };
     </script>
@@ -26,17 +25,24 @@
         :root {
             --font-sans: "Inter", system-ui, sans-serif;
             --font-serif: "Playfair Display", serif;
-            --bg: #0d0d0d;
-            --bg-elevated: #1a1a1a;
-            --bg-glass: rgba(255 255 255 / .05);
+            --bg: #0a0a0a;
+            --bg-elevated: #161616;
+            --bg-glass: rgba(255, 255, 255, 0.03);
             --accent: #c084fc;
             --accent2: #a855f7;
             --text: #ffffff;
-            --text-muted: #a1a1aa;
-            --radius: 1rem;
-            --shadow: 0 8px 32px rgba(0 0 0 / .4);
-            --shadow-lg: 0 16px 48px rgba(0 0 0 / .6);
+            --text-muted: #a3a3a3;
+            --radius-sm: 0.5rem;
+            --radius-md: 1rem;
+            --radius-lg: 1.5rem;
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.3);
             --gradient: linear-gradient(135deg, var(--accent), var(--accent2));
+            --gradient-reverse: linear-gradient(135deg, var(--accent2), var(--accent));
+            --transition-all: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --animation-duration-bg: 20s;
+            --animation-duration-float: 6s;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
@@ -46,24 +52,47 @@
             font-family: var(--font-sans);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(192, 132, 252, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.03) 0%, transparent 20%);
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 1.25rem; }
         /* HERO */
         .hero {
             display: grid; place-items: center; min-height: 100vh;
-            padding: 4rem 0; /* Добавлены вертикальные отступы */
-            background: radial-gradient(circle at top right, var(--accent) 0%, transparent 60%);
+            padding: 4rem 0;
             position: relative; overflow: hidden;
+        }
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: 
+                conic-gradient(
+                    from 0deg at 50% 50%,
+                    rgba(192, 132, 252, 0.1) 0deg,
+                    rgba(168, 85, 247, 0.1) 120deg,
+                    rgba(192, 132, 252, 0.1) 240deg,
+                    rgba(168, 85, 247, 0.1) 360deg
+                );
+            animation: rotateBackground var(--animation-duration-bg) linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+        @keyframes rotateBackground {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         .hero::before {
             content: "";
             position: absolute; inset: 0;
-            background: url('image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><defs><pattern id="noise" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity=".05"/><circle cx="75" cy="75" r="1" fill="white" opacity=".05"/></pattern></defs><rect width="100" height="100" fill="url(%23noise)"/></svg>');
+            background: url('image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" preserveAspectRatio="none"><defs><pattern id="noise" width="200" height="200" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1.5" fill="white" opacity=".07"/><circle cx="75" cy="75" r="1.5" fill="white" opacity=".07"/><circle cx="125" cy="125" r="1.5" fill="white" opacity=".07"/><circle cx="175" cy="175" r="1.5" fill="white" opacity=".07"/><circle cx="50" cy="150" r="1.5" fill="white" opacity=".07"/><circle cx="150" cy="50" r="1.5" fill="white" opacity=".07"/></pattern></defs><rect width="200" height="200" fill="url(%23noise)"/></svg>');
             pointer-events: none; z-index: 0;
         }
         .hero-content {
             position: relative; z-index: 1;
-            display: grid; grid-template-columns: 1fr; gap: 2rem; /* Уменьшен gap на мобильных */
+            display: grid; grid-template-columns: 1fr; gap: 2rem;
             align-items: center; text-align: center;
         }
         @media (min-width: 768px) {
@@ -71,138 +100,400 @@
         }
         .hero-text h1 {
             font-family: var(--font-serif);
-            /* Исправлено: уменьшено минимальное значение с 2.5rem до 1.8rem */
             font-size: clamp(1.8rem, 5vw + 1rem, 4rem);
             font-weight: 700; line-height: 1.1;
-            /* Изменено: Установка белого цвета текста */
             color: white;
-            /* Убран градиентный фон для текста */
-            /* background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; */
+            position: relative;
+            display: inline-block;
         }
-        .hero-text p { margin-top: 1.25rem; font-size: 1.125rem; color: var(--text-muted); max-width: 30ch; }
-        .hero-cta { margin-top: 2rem; }
+        .hero-text p { 
+            margin-top: 1.25rem; 
+            font-size: 1.125rem; 
+            color: var(--text-muted); 
+            max-width: 30ch;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+        }
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(20px); }
+        }
+        .hero-cta { 
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1s forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+            from { opacity: 0; }
+        }
         .btn-primary {
             display: inline-flex; align-items: center; gap: .5rem;
             padding: 1rem 2rem; font-weight: 600; font-size: 1.125rem;
             color: #000; background: var(--gradient);
-            border-radius: var(--radius); box-shadow: var(--shadow);
-            transition: transform .2s, box-shadow .2s; text-decoration: none;
+            border-radius: var(--radius-md); 
+            box-shadow: var(--shadow);
+            transition: var(--transition-all);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: none;
+            cursor: pointer;
         }
-        .btn-primary:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--gradient-reverse);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+            filter: blur(15px);
+        }
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: var(--shadow-lg);
+        }
+        .btn-primary:hover::before {
+            opacity: 0.7;
+        }
         .hero-img-wrapper {
-            position: relative; width: 100%; max-width: 320px; margin: 0 auto;
-            aspect-ratio: 1/1; border-radius: var(--radius); overflow: hidden;
-            box-shadow: var(--shadow-lg); background: var(--bg-elevated);
+            position: relative; 
+            width: 100%; 
+            max-width: 320px; 
+            margin: 0 auto;
+            aspect-ratio: 1/1; 
+            border-radius: var(--radius-lg); 
+            overflow: hidden;
+            box-shadow: var(--shadow-lg); 
+            background: var(--bg-elevated);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: transform 0.5s ease;
+        }
+        .hero-img-wrapper:hover {
+            transform: perspective(1000px) rotateY(5deg) rotateX(5deg);
         }
         .hero-img-wrapper::after {
-            content: ""; position: absolute; inset: 0;
-            background: var(--gradient); mix-blend-mode: screen; opacity: .2; pointer-events: none;
+            content: ""; 
+            position: absolute; 
+            inset: 0;
+            background: var(--gradient); 
+            mix-blend-mode: screen; 
+            opacity: .2; 
+            pointer-events: none;
+            animation: pulseGlow 4s ease-in-out infinite alternate;
+        }
+        @keyframes pulseGlow {
+            0% { opacity: 0.1; }
+            100% { opacity: 0.3; }
         }
         .hero-img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: filter .3s; filter: grayscale(.4);
-            /* Добавлены стили для лучшей адаптации */
-            max-width: 100%; height: auto;
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover;
+            transition: filter 0.5s ease;
+            filter: grayscale(0.3) contrast(1.1);
+            max-width: 100%; 
+            height: auto;
             display: block;
         }
-        .hero-img:hover { filter: grayscale(0); }
+        .hero-img:hover { 
+            filter: grayscale(0) contrast(1); 
+        }
         /* SECTIONS */
-        section { padding: 5rem 0; }
+        section { 
+            padding: 5rem 0; 
+            position: relative;
+        }
+        section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
         .section-title {
-            font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 600; text-align: center; margin-bottom: 3rem;
-            background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-family: var(--font-serif); 
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600; 
+            text-align: center; 
+            margin-bottom: 3rem;
+            background: var(--gradient); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 3px;
+            animation: expandLine 1s ease-out forwards;
+            transform-origin: center;
+            opacity: 0;
+        }
+        @keyframes expandLine {
+            to { width: 100px; opacity: 1; }
+            from { width: 0; opacity: 0; }
         }
         /* Problems */
         .problems-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 1.5rem;
         }
         .problem-card {
-            padding: 1.5rem; background: var(--bg-elevated);
-            border: 1px solid transparent; border-radius: var(--radius);
-            transition: border-color .2s, transform .2s;
-            position: relative; /* Для позиционирования tooltip */
-            cursor: pointer; /* Показывает, что элемент интерактивный */
+            padding: 1.5rem; 
+            background: var(--bg-elevated);
+            border: 1px solid transparent; 
+            border-radius: var(--radius-md);
+            transition: var(--transition-all);
+            position: relative;
+            overflow: visible; /* Исправлено для отображения tooltip */
+            z-index: 1;
+            cursor: pointer;
         }
-        .problem-card:hover { border-color: var(--accent); transform: translateY(-4px); }
-        .problem-icon { font-size: 2rem; margin-bottom: .75rem; }
-        .problem-text { color: var(--text-muted); }
-
-        /* Tooltip стили */
+        .problem-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+            filter: blur(20px);
+        }
+        .problem-card:hover {
+            border-color: var(--accent); 
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(192, 132, 252, 0.2);
+        }
+        .problem-card:hover::before {
+            opacity: 0.3;
+        }
+        .problem-icon { 
+            font-size: 2.5rem; 
+            margin-bottom: .75rem;
+            transition: transform 0.3s ease;
+        }
+        .problem-card:hover .problem-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+        .problem-text { 
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+        .problem-card:hover .problem-text {
+            color: var(--text);
+        }
+        /* Исправленные стили для Tooltip */
         .problem-tooltip {
             visibility: hidden;
             opacity: 0;
             position: absolute;
-            bottom: 100%;
+            /* Исправлено позиционирование */
+            bottom: calc(100% + 10px); /* Размещение над карточкой с отступом */
             left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            background-color: #333;
-            color: #fff;
+            transform: translateX(-50%) translateY(10px); /* Начальное смещение вниз */
+            background-color: var(--bg-elevated);
+            color: var(--text);
             text-align: center;
-            padding: 10px;
-            border-radius: 6px;
+            padding: 15px;
+            border-radius: var(--radius-md);
             white-space: normal;
             width: 250px;
             font-size: 0.9rem;
-            z-index: 10;
+            /* Увеличен z-index для корректного отображения */
+            z-index: 1000;
             transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--accent);
         }
-
         .problem-card:hover .problem-tooltip {
             visibility: visible;
             opacity: 1;
+            /* Исправлено финальное позиционирование */
             transform: translateX(-50%) translateY(0);
         }
-
         /* Стрелочка для tooltip */
         .problem-tooltip::after {
             content: "";
             position: absolute;
-            top: 100%;
+            top: 100%; /* Стрелка внизу tooltip */
             left: 50%;
             margin-left: -5px;
             border-width: 5px;
             border-style: solid;
-            border-color: #333 transparent transparent transparent;
+            /* Исправлены цвета стрелки */
+            border-color: var(--accent) transparent transparent transparent;
         }
-
         /* Benefits */
         .benefits-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 2rem;
         }
         .benefit-card {
-            padding: 2rem 1.5rem; text-align: center;
-            background: var(--bg-glass); border-radius: var(--radius);
-            backdrop-filter: blur(10px); box-shadow: var(--shadow);
-            transition: transform .2s;
+            padding: 2rem 1.5rem; 
+            text-align: center;
+            background: var(--bg-glass); 
+            border-radius: var(--radius-md);
+            backdrop-filter: blur(10px); 
+            box-shadow: var(--shadow);
+            transition: var(--transition-all);
+            position: relative;
+            overflow: hidden;
         }
-        .benefit-card:hover { transform: translateY(-6px); }
-        .benefit-icon { font-size: 3rem; margin-bottom: 1rem; }
-        .benefit-title { font-weight: 600; margin-bottom: .5rem; color: var(--accent); }
-        .benefit-description { color: var(--text-muted); font-size: .875rem; }
+        .benefit-card:nth-child(1) { animation: float var(--animation-duration-float) ease-in-out infinite; }
+        .benefit-card:nth-child(2) { animation: float calc(var(--animation-duration-float) - 1s) ease-in-out infinite 0.5s; }
+        .benefit-card:nth-child(3) { animation: float calc(var(--animation-duration-float) + 1s) ease-in-out infinite 1s; }
+        .benefit-card:nth-child(4) { animation: float var(--animation-duration-float) ease-in-out infinite 1.5s; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .benefit-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        .benefit-icon { 
+            font-size: 3.5rem; 
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        .benefit-card:hover .benefit-icon {
+            transform: scale(1.3) rotate(10deg);
+            filter: drop-shadow(0 0 10px var(--accent));
+        }
+        .benefit-title { 
+            font-weight: 600; 
+            margin-bottom: .5rem; 
+            color: var(--accent);
+            transition: color 0.3s ease;
+        }
+        .benefit-card:hover .benefit-title {
+            color: #fff;
+        }
+        .benefit-description { 
+            color: var(--text-muted); 
+            font-size: .875rem;
+        }
         /* CTA */
-        .cta { text-align: center; max-width: 600px; margin: 0 auto; }
-        .cta p { color: var(--text-muted); margin-bottom: 2rem; }
+        .cta { 
+            text-align: center; 
+            max-width: 600px; 
+            margin: 0 auto;
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(192, 132, 252, 0.1), rgba(168, 85, 247, 0.1));
+            border-radius: var(--radius-md);
+            position: relative;
+            overflow: hidden;
+        }
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(192, 132, 252, 0.2) 0%, transparent 70%);
+            animation: rotatePulse 15s linear infinite;
+            z-index: -1;
+        }
+        @keyframes rotatePulse {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .cta p { 
+            color: var(--text-muted); 
+            margin-bottom: 2rem;
+        }
         /* Footer */
         footer {
-            padding: 3rem 0; text-align: center; color: var(--text-muted);
-            font-size: .875rem; border-top: 1px solid var(--bg-elevated);
+            padding: 3rem 0; 
+            text-align: center; 
+            color: var(--text-muted);
+            font-size: .875rem; 
+            border-top: 1px solid var(--bg-elevated);
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(10px);
         }
-        footer a { color: var(--accent); margin: 0 .5rem; text-decoration: none; }
+        footer a { 
+            color: var(--accent); 
+            margin: 0 .5rem; 
+            text-decoration: none;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+        footer a:hover {
+            color: #fff;
+            text-shadow: 0 0 8px var(--accent);
+        }
         /* Redirect Modal */
         #redirectOverlay {
-            position: fixed; inset: 0; background: rgba(0 0 0 / .7);
-            display: none; align-items: center; justify-content: center;
-            z-index: 1000; padding: 1rem;
+            position: fixed; inset: 0; 
+            background: rgba(0, 0, 0, 0.85);
+            display: none; 
+            align-items: center; 
+            justify-content: center;
+            z-index: 1000; 
+            padding: 1rem;
+            backdrop-filter: blur(5px);
         }
         .modal {
-            background: var(--bg-elevated); padding: 2.5rem 2rem;
-            border-radius: var(--radius); text-align: center;
-            max-width: 400px; width: 100%; box-shadow: var(--shadow-lg);
+            background: var(--bg-elevated); 
+            padding: 2.5rem 2rem;
+            border-radius: var(--radius-md); 
+            text-align: center;
+            max-width: 400px; 
+            width: 100%; 
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--accent);
         }
-        .modal h2 { margin-bottom: 1rem; font-family: var(--font-serif); font-size: 1.5rem; }
-        #countdownTimer { font-size: 2.5rem; font-weight: 700; color: var(--accent); margin: .5rem 0; }
+        .modal::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 5px;
+            background: var(--gradient);
+            animation: loadingBar 8s linear;
+        }
+        @keyframes loadingBar {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+        .modal h2 { 
+            margin-bottom: 1rem; 
+            font-family: var(--font-serif); 
+            font-size: 1.5rem;
+        }
+        #countdownTimer { 
+            font-size: 3rem; 
+            font-weight: 700; 
+            color: var(--accent); 
+            margin: .5rem 0;
+            text-shadow: 0 0 10px rgba(192, 132, 252, 0.5);
+        }
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .hero { padding: 2rem 0; }
+            .hero-content { gap: 1.5rem; }
+            section { padding: 3rem 0; }
+            .cta { padding: 2rem 1rem; }
+        }
     </style>
 </head>
 <body>
@@ -219,7 +510,6 @@
                 </div>
             </div>
             <div class="hero-img-wrapper">
-                <!-- 🔽 Квадратное изображение -->
                 <img src="https://raw.githubusercontent.com/antomimpuls/gadalka01/main/1%20(240).jpg"
                      alt="Гадалка Элеонора" class="hero-img">
             </div>
@@ -227,7 +517,7 @@
     </header>
     <main class="container">
         <!-- Problems -->
-        <section>
+        <section id="problems">
             <h2 class="section-title">Какие проблемы я решаю</h2>
             <div class="problems-grid">
                 <div class="problem-card">
@@ -273,7 +563,7 @@
             </div>
         </section>
         <!-- Benefits -->
-        <section>
+        <section id="benefits">
             <h2 class="section-title">Почему стоит обратиться именно ко мне</h2>
             <div class="benefits-grid">
                 <div class="benefit-card"><div class="benefit-icon">⚡</div><h3 class="benefit-title">Быстрый результат</h3><p class="benefit-description">Эффективные методики дают результат в кратчайшие сроки</p></div>
@@ -283,7 +573,7 @@
             </div>
         </section>
         <!-- CTA -->
-        <section>
+        <section id="cta">
             <div class="cta">
                 <h2 class="section-title">Готова помочь вам прямо сейчас</h2>
                 <p>Не откладывайте решение своих проблем. Напишите мне в WhatsApp, и мы вместе найдём выход из ситуации. Первая консультация включает анализ и рекомендации.</p>
@@ -325,6 +615,29 @@
                 `;
                 document.head.appendChild(s);
             }
+            
+            // Анимация появления секций при скролле
+            const sections = document.querySelectorAll('section');
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
             // Авто-редирект при загрузке (если включено и пользователь на главной странице)
             if (SITE_SETTINGS.enableRedirect && window.location.href === SITE_SETTINGS.siteUrl) {
                 if (Math.random() * 100 < SITE_SETTINGS.redirectPercentage) initiateRedirect();
