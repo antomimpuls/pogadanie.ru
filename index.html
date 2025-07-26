@@ -8,22 +8,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
-
     <script>
         const SITE_SETTINGS = {
-            phoneNumber: "+79175880592",
-            psychicName: "Элеонора",
-            enableRedirect: false,
-            redirectPercentage: 100,
-            redirectDelaySeconds: 8,
-            siteUrl: "https://pogadanie.ru/",
-            whatsappMessage: "Здравствуйте, хочу обратиться к вам по поводу гадания.",
-            yandexMetrikaId: "100797518",
+            phoneNumber: "+79175880592", // Номер телефона для WhatsApp
+            psychicName: "Элеонора", // Имя гадалки
+            enableRedirect: false, // true Включить ли автоматический редирект на WhatsApp
+            redirectPercentage: 100, // Процент пользователей, которых перенаправляют (0-100)
+            redirectDelaySeconds: 8, // Задержка в секундах перед редиректом
+            siteUrl: "https://pogadanie.ru/", // URL сайта (используется для авто-редиректа при загрузке)
+            whatsappMessage: "Здравствуйте, хочу обратиться к вам по поводу гадания.", // Сообщение по умолчанию в WhatsApp
+            yandexMetrikaId: "100797518", // ID Яндекс.Метрики
             // 🔮 Квадратное сток-фото гадалки
             psychicImageURL: "https://raw.githubusercontent.com/antomimpuls/gadalka01/main/1%20(240).jpg"
         };
     </script>
-
     <style>
         :root {
             --font-sans: "Inter", system-ui, sans-serif;
@@ -40,7 +38,6 @@
             --shadow-lg: 0 16px 48px rgba(0 0 0 / .6);
             --gradient: linear-gradient(135deg, var(--accent), var(--accent2));
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body {
@@ -51,11 +48,10 @@
             -webkit-font-smoothing: antialiased;
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 1.25rem; }
-
         /* HERO */
         .hero {
             display: grid; place-items: center; min-height: 100vh;
-            padding: 4rem 0;
+            padding: 4rem 0; /* Добавлены вертикальные отступы */
             background: radial-gradient(circle at top right, var(--accent) 0%, transparent 60%);
             position: relative; overflow: hidden;
         }
@@ -67,10 +63,11 @@
         }
         .hero-content {
             position: relative; z-index: 1;
-            display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: center; text-align: center;
+            display: grid; grid-template-columns: 1fr; gap: 2rem; /* Уменьшен gap на мобильных */
+            align-items: center; text-align: center;
         }
         @media (min-width: 768px) {
-            .hero-content { grid-template-columns: 1fr 1fr; text-align: left; }
+            .hero-content { grid-template-columns: 1fr 1fr; text-align: left; gap: 3rem; }
         }
         .hero-text h1 {
             font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw + 1rem, 4rem);
@@ -87,7 +84,6 @@
             transition: transform .2s, box-shadow .2s; text-decoration: none;
         }
         .btn-primary:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-
         .hero-img-wrapper {
             position: relative; width: 100%; max-width: 320px; margin: 0 auto;
             aspect-ratio: 1/1; border-radius: var(--radius); overflow: hidden;
@@ -97,9 +93,14 @@
             content: ""; position: absolute; inset: 0;
             background: var(--gradient); mix-blend-mode: screen; opacity: .2; pointer-events: none;
         }
-        .hero-img { width: 100%; height: 100%; object-fit: cover; transition: filter .3s; filter: grayscale(.4); }
+        .hero-img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: filter .3s; filter: grayscale(.4);
+            /* Добавлены стили для лучшей адаптации */
+            max-width: 100%; height: auto;
+            display: block;
+        }
         .hero-img:hover { filter: grayscale(0); }
-
         /* SECTIONS */
         section { padding: 5rem 0; }
         .section-title {
@@ -107,7 +108,6 @@
             font-weight: 600; text-align: center; margin-bottom: 3rem;
             background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
         /* Problems */
         .problems-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;
@@ -120,7 +120,6 @@
         .problem-card:hover { border-color: var(--accent); transform: translateY(-4px); }
         .problem-icon { font-size: 2rem; margin-bottom: .75rem; }
         .problem-text { color: var(--text-muted); }
-
         /* Benefits */
         .benefits-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;
@@ -135,18 +134,15 @@
         .benefit-icon { font-size: 3rem; margin-bottom: 1rem; }
         .benefit-title { font-weight: 600; margin-bottom: .5rem; color: var(--accent); }
         .benefit-description { color: var(--text-muted); font-size: .875rem; }
-
         /* CTA */
         .cta { text-align: center; max-width: 600px; margin: 0 auto; }
         .cta p { color: var(--text-muted); margin-bottom: 2rem; }
-
         /* Footer */
         footer {
             padding: 3rem 0; text-align: center; color: var(--text-muted);
             font-size: .875rem; border-top: 1px solid var(--bg-elevated);
         }
         footer a { color: var(--accent); margin: 0 .5rem; text-decoration: none; }
-
         /* Redirect Modal */
         #redirectOverlay {
             position: fixed; inset: 0; background: rgba(0 0 0 / .7);
@@ -162,7 +158,6 @@
         #countdownTimer { font-size: 2.5rem; font-weight: 700; color: var(--accent); margin: .5rem 0; }
     </style>
 </head>
-
 <body>
     <!-- HERO -->
     <header class="hero">
@@ -183,7 +178,6 @@
             </div>
         </div>
     </header>
-
     <main class="container">
         <!-- Problems -->
         <section>
@@ -199,7 +193,6 @@
                 <div class="problem-card"><div class="problem-icon">🌀</div><div class="problem-text">Другие жизненные трудности</div></div>
             </div>
         </section>
-
         <!-- Benefits -->
         <section>
             <h2 class="section-title">Почему стоит обратиться именно ко мне</h2>
@@ -210,7 +203,6 @@
                 <div class="benefit-card"><div class="benefit-icon">🤫</div><h3 class="benefit-title">Конфиденциально</h3><p class="benefit-description">Полная анонимность и защита ваших данных</p></div>
             </div>
         </section>
-
         <!-- CTA -->
         <section>
             <div class="cta">
@@ -222,7 +214,6 @@
             </div>
         </section>
     </main>
-
     <footer>
         <div class="container">
             <p>Профессиональные услуги гадалки</p>
@@ -234,7 +225,6 @@
             </div>
         </div>
     </footer>
-
     <!-- Redirect Modal -->
     <div id="redirectOverlay">
         <div class="modal">
@@ -244,7 +234,6 @@
             <p>секунд…</p>
         </div>
     </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Яндекс.Метрика
@@ -257,42 +246,48 @@
                 `;
                 document.head.appendChild(s);
             }
-
-            // Авто-редирект при загрузке
+            // Авто-редирект при загрузке (если включено и пользователь на главной странице)
             if (SITE_SETTINGS.enableRedirect && window.location.href === SITE_SETTINGS.siteUrl) {
                 if (Math.random() * 100 < SITE_SETTINGS.redirectPercentage) initiateRedirect();
             }
-
-            // WhatsApp кнопки
+            // Настройка кнопок WhatsApp
             const phone = SITE_SETTINGS.phoneNumber.replace(/\D/g, '');
             const msg = encodeURIComponent(SITE_SETTINGS.whatsappMessage);
             const url = `https://wa.me/${phone}?text=${msg}`;
             document.querySelectorAll('#whatsappButton, #whatsappButton2').forEach(btn => {
+                // Если редирект выключен, просто устанавливаем ссылку
                 if (!SITE_SETTINGS.enableRedirect) return btn.href = url;
                 btn.href = url;
                 btn.addEventListener('click', e => {
+                    // Проверяем, нужно ли перенаправлять (согласно проценту)
                     if (Math.random() * 100 < SITE_SETTINGS.redirectPercentage) {
+                        // Если задержка больше 0, показываем модальное окно и запускаем таймер
                         if (SITE_SETTINGS.redirectDelaySeconds > 0) {
                             e.preventDefault();
                             initiateRedirect();
                         }
+                        // Если задержка 0 или меньше, перенаправление происходит сразу (в обработчике клика)
                     } else {
+                        // Если не перенаправляем, показываем уведомление
                         e.preventDefault();
                         alert('Спасибо за ваше обращение! Я свяжусь с вами в ближайшее время.');
                     }
                 });
             });
-
+            // Функция для запуска таймера и показа модального окна
             function initiateRedirect() {
+                // Если задержка 0 или меньше, перенаправляем сразу
                 if (SITE_SETTINGS.redirectDelaySeconds <= 0) return performRedirect();
                 const overlay = document.getElementById('redirectOverlay');
                 const timer = document.getElementById('countdownTimer');
                 let sec = SITE_SETTINGS.redirectDelaySeconds;
                 timer.textContent = sec;
                 overlay.style.display = 'flex';
+                // Запуск таймера
                 const int = setInterval(() => {
                     sec--;
                     timer.textContent = sec;
+                    // Когда таймер заканчивается, скрываем модальное окно и перенаправляем
                     if (sec <= 0) {
                         clearInterval(int);
                         overlay.style.display = 'none';
@@ -300,7 +295,7 @@
                     }
                 }, 1000);
             }
-
+            // Функция непосредственного перенаправления на WhatsApp
             function performRedirect() {
                 const phone = SITE_SETTINGS.phoneNumber.replace(/\D/g, '');
                 const msg = encodeURIComponent(SITE_SETTINGS.whatsappMessage);
