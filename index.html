@@ -1589,7 +1589,7 @@
                     // Получаем заголовок из модального окна для кастомного сообщения
                     const modalTitleElement = document.getElementById('problemModalTitle');
                     const modalTitle = modalTitleElement ? modalTitleElement.textContent : "данной проблеме";
-                    const customMessage = `Здравствуйте, ${SITE_SETTINGS.psychicName}. Хочу обратиться к вам по поводу: ${modalTitle}.`;
+                    const customMessage = SITE_SETTINGS.whatsappMessage;
                     if (SITE_SETTINGS.enableRedirect) {
                         // Проверяем, нужно ли перенаправлять (согласно проценту)
                         if (Math.random() * 100 < SITE_SETTINGS.redirectPercentage) {
@@ -1781,3 +1781,4 @@
     </script>
 </body>
 </html>
+```
