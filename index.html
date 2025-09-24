@@ -993,4 +993,370 @@
       wave.className = 'energy-wave';
       wave.style.left = `${x}px`;
       wave.style.top = `${y}px`;
-     
+      wave.style.borderColor = EFFECT_SETTINGS.energyWaves.color;
+      document.getElementById('wavesContainer').appendChild(wave);
+      energyWaves.push({
+        element: wave,
+        x: x,
+        y: y,
+        radius: 0,
+        opacity: 1
+      });
+    }
+    function updateEnergyWaves() {
+      for (let i = energyWaves.length - 1; i >= 0; i--) {
+        const wave = energyWaves[i];
+        wave.radius += EFFECT_SETTINGS.energyWaves.speed * 2;
+        wave.opacity -= 0.01;
+        if (wave.opacity <= 0) {
+          wave.element.remove();
+          energyWaves.splice(i, 1);
+        } else {
+          wave.element.style.width = `${wave.radius * 2}px`;
+          wave.element.style.height = `${wave.radius * 2}px`;
+          wave.element.style.opacity = wave.opacity;
+        }
+      }
+    }
+    function initFloatingElements() {
+      if (!EFFECT_SETTINGS.floatingElements.enabled) return;
+      const container = document.createElement('div');
+      container.id = 'floatingElementsContainer';
+      document.body.appendChild(container);
+      for (let i = 0; i < EFFECT_SETTINGS.floatingElements.count; i++) {
+        const element = document.createElement('div');
+        element.className = 'floating-element';
+        const symbol = EFFECT_SETTINGS.floatingElements.symbols[
+          Math.floor(Math.random() * EFFECT_SETTINGS.floatingElements.symbols.length)
+        ];
+        const color = EFFECT_SETTINGS.floatingElements.colors[
+          Math.floor(Math.random() * EFFECT_SETTINGS.floatingElements.colors.length)
+        ];
+        const size = Math.random() * (EFFECT_SETTINGS.floatingElements.size.max - EFFECT_SETTINGS.floatingElements.size.min) + EFFECT_SETTINGS.floatingElements.size.min;
+        const duration = Math.random() * (EFFECT_SETTINGS.floatingElements.duration.max - EFFECT_SETTINGS.floatingElements.duration.min) + EFFECT_SETTINGS.floatingElements.duration.min;
+        element.textContent = symbol;
+        element.style.color = color;
+        element.style.fontSize = `${size}px`;
+        const startX = Math.random() * 100;
+        const startY = Math.random() * 100;
+        const endX = Math.random() * 100;
+        const endY = Math.random() * 100;
+        element.style.setProperty('--startX', `${startX}vw`);
+        element.style.setProperty('--startY', `${startY}vh`);
+        element.style.setProperty('--endX', `${endX}vw`);
+        element.style.setProperty('--endY', `${endY}vh`);
+        element.style.animationDuration = `${duration}s`;
+        container.appendChild(element);
+      }
+    }
+    function initPsychicAura() {
+      if (!EFFECT_SETTINGS.psychicAura.enabled) return;
+      auraCanvas = document.getElementById('auraCanvas');
+      if (!auraCanvas) {
+        console.error('Canvas для ауры гадалки не найден');
+        return;
+      }
+      auraCtx = auraCanvas.getContext('2d');
+      handleResize();
+      if (EFFECT_SETTINGS.psychicAura.particles.enabled) {
+        auraParticles = [];
+        for (let i = 0; i < EFFECT_SETTINGS.psychicAura.particles.count; i++) {
+          auraParticles.push(createAuraParticle());
+        }
+      }
+    }
+    function createAuraParticle() {
+      const settings = EFFECT_SETTINGS.psychicAura.particles;
+      const canvasSize = Math.min(auraCanvas.width, auraCanvas.height);
+      const centerX = auraCanvas.width / 2;
+      const centerY = auraCanvas.height / 2;
+      const maxRadius = canvasSize * EFFECT_SETTINGS.psychicAura.baseRadius * 0.45;
+      const angle = Math.random() * Math.PI * 2;
+      const distance = Math.random() * maxRadius;
+      return {
+        x: centerX + Math.cos(angle) * distance,
+        y: centerY + Math.sin(angle) * distance,
+        size: Math.random() * (settings.size.max - settings.size.min) + settings.size.min,
+        speedX: (Math.random() - 0.5) * 2 * settings.speed.max,
+        speedY: (Math.random() - 0.5) * 2 * settings.speed.max,
+        symbol: settings.symbols[Math.floor(Math.random() * settings.symbols.length)],
+        color: settings.colors[Math.floor(Math.random() * settings.colors.length)],
+        life: 1.0,
+        decay: Math.random() * (settings.lifeDecay.max - settings.lifeDecay.min) + settings.lifeDecay.min
+      };
+    }
+    function drawPsychicAura(ctx) {
+      if (!EFFECT_SETTINGS.psychicAura.enabled) return;
+      const settings = EFFECT_SETTINGS.psychicAura;
+      const canvasSize = Math.min(auraCanvas.width, auraCanvas.height);
+      const centerX = auraCanvas.width / 2;
+      const centerY = auraCanvas.height / 2;
+      const maxRadius = canvasSize * settings.baseRadius * 0.5;
+      auraTime += settings.pulseSpeed;
+      const pulse = Math.sin(auraTime) * 0.05 + 1;
+      const radius = maxRadius * pulse;
+      const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+      gradient.addColorStop(0, `rgba(${settings.color}, ${settings.baseOpacity})`);
+      gradient.addColorStop(0.7, `rgba(${settings.color}, ${settings.baseOpacity * 0.5})`);
+      gradient.addColorStop(1, `rgba(${settings.color}, 0)`);
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+    }
+    function updateAndDrawAuraParticles(ctx) {
+      if (!EFFECT_SETTINGS.psychicAura.particles.enabled) return;
+      const canvasSize = Math.min(auraCanvas.width, auraCanvas.height);
+      const centerX = auraCanvas.width / 2;
+      const centerY = auraCanvas.height / 2;
+      const maxRadius = canvasSize * EFFECT_SETTINGS.psychicAura.baseRadius * 0.45;
+      for (let i = 0; i < auraParticles.length; i++) {
+        let p = auraParticles[i];
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.life -= p.decay;
+        const dx = p.x - centerX;
+        const dy = p.y - centerY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance > maxRadius || p.life <= 0) {
+          auraParticles[i] = createAuraParticle();
+          continue;
+        }
+        ctx.font = `${p.size}px Arial`;
+        ctx.fillStyle = p.color;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.globalAlpha = p.life;
+        ctx.fillText(p.symbol, p.x, p.y);
+      }
+      ctx.globalAlpha = 1.0;
+    }
+    function handleMouseMove(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      const hero = document.querySelector('.hero');
+      if (hero) {
+        const rect = hero.getBoundingClientRect();
+        isMouseInHero = (
+          mouseX >= rect.left &&
+          mouseX <= rect.right &&
+          mouseY >= rect.top &&
+          mouseY <= rect.bottom
+        );
+      }
+    }
+    function handleResize() {
+      if (auraCanvas) {
+        const wrapper = auraCanvas.parentElement;
+        if (wrapper) {
+            auraCanvas.width = wrapper.clientWidth;
+            auraCanvas.height = wrapper.clientHeight;
+        }
+      }
+      const mainCanvas = document.getElementById('ball');
+      if (mainCanvas) {
+        const dpr = Math.min(2, window.devicePixelRatio||1);
+        const side = mainCanvas.clientWidth||mainCanvas.parentElement.offsetWidth;
+        mainCanvas.width = Math.floor(side*dpr);
+        mainCanvas.height= Math.floor(side*dpr);
+      }
+      const cursorCanvas = document.getElementById('cursorAura');
+      if (cursorCanvas) {
+        cursorCanvas.width=window.innerWidth;
+        cursorCanvas.height=window.innerHeight;
+      }
+    }
+    function animateEffects() {
+      if (auraCtx && auraCanvas) {
+        auraCtx.clearRect(0, 0, auraCanvas.width, auraCanvas.height);
+        drawPsychicAura(auraCtx);
+        updateAndDrawAuraParticles(auraCtx);
+      }
+      updateEnergyWaves();
+      requestAnimationFrame(animateEffects);
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        const photoElement = document.getElementById('psychicPhoto');
+        const stickyPhotoElement = document.querySelector('.sticky-whatsapp .avatar img');
+        if (photoElement) {
+            photoElement.src = SITE_SETTINGS.psychicImageURL;
+            photoElement.alt = SITE_SETTINGS.psychicName ? `Фото ${SITE_SETTINGS.psychicName}` : "Фото гадалки";
+        }
+        if (stickyPhotoElement) {
+            stickyPhotoElement.src = SITE_SETTINGS.psychicImageURL;
+            stickyPhotoElement.alt = SITE_SETTINGS.psychicName ? `Фото ${SITE_SETTINGS.psychicName}` : "Фото гадалки";
+        }
+      initAllEffects();
+      if (SITE_SETTINGS.yandexMetrikaId) {
+        const s = document.createElement('script');
+        s.type = 'text/javascript'; s.async = true;
+        s.innerHTML = `
+          (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r)return;}
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+          (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+          ym(${SITE_SETTINGS.yandexMetrikaId},"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+        `;
+        document.head.appendChild(s);
+      }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.card').forEach(card => {
+        observer.observe(card);
+      });
+      const greetings = [
+        {h:[0,1,2,3,4,5],  txt:'Ночь раскрывает завесу тайн… 🌌'},
+        {h:[6],             txt:'Рассвет подскажет верный путь 🌅'},
+        {h:[7,8],           txt:'Утро – время магии и кофе ☕🔮'},
+        {h:[9,10],          txt:'Карты уже ждут ваш вопрос ✨'},
+        {h:[11,12],         txt:'Полдень – ясность приходит со светом ☀️'},
+        {h:[13,14],         txt:'День – лучшее время для денежных ритуалов 💸'},
+        {h:[15,16],         txt:'Сумерки – ключ к сердечным тайнам ❤️'},
+        {h:[17,18],         txt:'Вечером интуиция острее 🌆'},
+        {h:[19,20],         txt:'Ночь покажет, что скрыто от глаз 🌙'},
+        {h:[21,22],         txt:'Поздний час – магия вне времени 🕛'},
+        {h:[23],            txt:'Последний миг – ответ уже рядом ⏳'}
+      ];
+      function showCloud(){
+        const h = new Date().getHours();
+        const set = greetings.find(m=>m.h.includes(h));
+        const text = set ? set.txt : 'Привет! 🌟';
+        const cloud = document.getElementById('typingCloud');
+        const span  = document.getElementById('dynamicText');
+        if (!cloud || !span) return;
+        span.textContent = '';
+        cloud.classList.add('show');
+        [...text].forEach((ch,i)=>{
+          setTimeout(()=> span.textContent += ch, i*45);
+        });
+      }
+      showCloud();
+      // handleRedirect(); — не вызывается, т.к. enableRedirect = false
+    });
+    function createSpark(x, y) {
+      const spark = document.createElement('div');
+      spark.className = 'spark';
+      spark.innerHTML = '✨';
+      spark.style.left = `${x}px`;
+      spark.style.top = `${y}px`;
+      spark.style.color = `hsl(${240 + Math.random() * 60}, 100%, 70%)`;
+      document.body.appendChild(spark);
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 2 + Math.random() * 3;
+      const vx = Math.cos(angle) * speed;
+      const vy = Math.sin(angle) * speed;
+      let opacity = 1;
+      function animate() {
+        const currentX = parseFloat(spark.style.left);
+        const currentY = parseFloat(spark.style.top);
+        spark.style.left = `${currentX + vx}px`;
+        spark.style.top = `${currentY + vy}px`;
+        opacity -= 0.03;
+        spark.style.opacity = opacity;
+        if (opacity > 0) {
+          requestAnimationFrame(animate);
+        } else {
+          spark.remove();
+        }
+      }
+      animate();
+    }
+    document.getElementById('stickyWaBtn').addEventListener('click', function(e) {
+      const rect = this.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      for (let i = 0; i < 15; i++) {
+        setTimeout(() => {
+          createSpark(centerX, centerY);
+        }, i * 30);
+      }
+    });
+    function animateEnvelope(startX, startY, endX, endY) {
+      const envelope = document.createElement('div');
+      envelope.className = 'envelope-animation';
+      envelope.innerHTML = '✉️';
+      envelope.style.setProperty('--startX', `${startX}px`);
+      envelope.style.setProperty('--startY', `${startY}px`);
+      envelope.style.setProperty('--endX', `${endX}px`);
+      envelope.style.setProperty('--endY', `${endY}px`);
+      document.body.appendChild(envelope);
+      envelope.addEventListener('animationend', () => {
+        envelope.remove();
+      });
+    }
+    const originalOpenPortal = openPortal;
+    window.openPortal = function(e) {
+      e?.preventDefault();
+      const btnRect = e?.target?.getBoundingClientRect();
+      const stickyBtnRect = document.getElementById('stickyWaBtn')?.getBoundingClientRect();
+      if (btnRect) {
+        animateEnvelope(
+          btnRect.left + btnRect.width / 2,
+          btnRect.top + btnRect.height / 2,
+          window.innerWidth - 50,
+          window.innerHeight - 50
+        );
+      } else if (stickyBtnRect) {
+      }
+      originalOpenPortal(e);
+    };
+    let lastTap = 0;
+    document.addEventListener('touchend', function(e) {
+      const currentTime = new Date().getTime();
+      const tapLength = currentTime - lastTap;
+      if (tapLength < 300 && tapLength > 0) {
+        if (e.changedTouches && e.changedTouches[0]) {
+            createHeartAnimation(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+            setTimeout(() => {
+              window.location.href = `https://wa.me/${SITE_SETTINGS.phoneNumber.replace(/\D/g,'')}?text=${encodeURIComponent('💜 нужна помощь')}`;
+            }, 800);
+        }
+      }
+      lastTap = currentTime;
+    });
+    function createHeartAnimation(x, y) {
+      const heart = document.createElement('div');
+      heart.className = 'heart-animation';
+      heart.innerHTML = '💜';
+      heart.style.left = `${x - 25}px`;
+      heart.style.top = `${y - 25}px`;
+      document.body.appendChild(heart);
+      heart.addEventListener('animationend', () => {
+        heart.remove();
+      });
+    }
+    document.addEventListener('touchstart', function(e) {
+      if (e.touches && e.touches[0]) {
+          const touch = e.touches[0];
+          createMagicTap(touch.clientX, touch.clientY);
+      }
+    });
+    function createMagicTap(x, y) {
+      const symbols = ['✨', '🔮', '✦', '✧', '☽'];
+      const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+      const tap = document.createElement('div');
+      tap.className = 'magic-tap';
+      tap.style.left = x + 'px';
+      tap.style.top = y + 'px';
+      tap.innerHTML = symbol;
+      const btn = document.querySelector('.sticky-whatsapp');
+      if (btn) {
+        const btnRect = btn.getBoundingClientRect();
+        tap.style.setProperty('--startX', x + 'px');
+        tap.style.setProperty('--startY', y + 'px');
+        tap.style.setProperty('--endX', (btnRect.left + btnRect.width/2) + 'px');
+        tap.style.setProperty('--endY', (btnRect.top + btnRect.height/2) + 'px');
+      }
+      document.body.appendChild(tap);
+      setTimeout(() => tap.remove(), 1500);
+    }
+  </script>
+<script src="stats.js"></script>
+</body>
+</html>
