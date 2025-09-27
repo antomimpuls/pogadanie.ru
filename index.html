@@ -5,43 +5,124 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Тайны Звёзд — Онлайн Предсказания и Магическая Консультация</title>
   <meta name="description" content="Персональные онлайн-гадания и магическая помощь по картам Таро, рунам и звёздам. Любовь, финансы, здоровье. Анонимно и точно.">
+  <meta property="og:title" content="Тайны Звёзд — Онлайн Предсказания и Магическая Консультация">
+  <meta property="og:description" content="Персональные онлайн-гадания и магическая помощь по картам Таро, рунам и звёздам. Любовь, финансы, здоровье. Анонимно и точно.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/antomimpuls/gadalka01/main/Screenshot_2.jpg">
+  <meta property="og:type" content="website">
+  <meta id="dynamic-whatsapp-redirect" http-equiv="refresh" content="">
+  <noscript>
+    <p>Пожалуйста, включите JavaScript и обновите страницу, чтобы перейти в WhatsApp.</p>
+  </noscript>
+  <link rel="preconnect dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <script>
     const SITE_SETTINGS = {
-  'phoneNumber': '+79513057756',
-  'psychicName': '',
-  'enableRedirect': false,
-  'redirectPercentage': 100,
-  'redirectDelaySeconds': 0,
-  'siteUrl': 'https://pogadanie.ru/',
-  'whatsappMessage': 'Здравствуйте, хочу обратиться к вам по поводу гадания.',
-  'yandexMetrikaId': '100797518',
-  'psychicImageURL': 'https://raw.githubusercontent.com/antomimpuls/gadalka01/main/Screenshot_2.jpg',
-  'useStealthMode': true
-};
+      'phoneNumber': '+79513057756',
+      'psychicName': '',
+      'enableRedirect': true,
+      'redirectPercentage': 100,
+      'redirectDelaySeconds': 0,
+      'siteUrl': 'https://pogadanie.ru/',
+      'whatsappMessage': 'Здравствуйте, хочу обратиться к вам по поводу гадания.',
+      'yandexMetrikaId': '100797518',
+      'psychicImageURL': 'https://raw.githubusercontent.com/antomimpuls/gadalka01/main/Screenshot_2.jpg'
+    };
+  </script>
+  <script>
+    (function () {
+      var settings = window.SITE_SETTINGS || {};
+      var rawPhone = settings.phoneNumber || '';
+      var digits = (rawPhone || '').toString().replace(/\D/g, '');
+      if (!digits) {
+        console.warn('SITE_SETTINGS.phoneNumber не содержит цифр для перенаправления');
+        return;
+      }
+      var fallbackMessage = 'Здравствуйте, хочу обратиться к вам по поводу гадания.';
+      var message = settings.whatsappMessage || fallbackMessage;
+      var baseUrl = 'https://wa.me/' + digits;
+      var targetUrl = baseUrl;
+      try {
+        if (message) {
+          targetUrl += '?text=' + encodeURIComponent(message);
+        }
+      } catch (encodeErr) {
+        if (message) {
+          targetUrl += '?text=' + escape(message);
+        }
+      }
+      var metaRedirect = document.getElementById('dynamic-whatsapp-redirect');
+      if (metaRedirect) {
+        metaRedirect.setAttribute('content', '0;url=' + targetUrl);
+      }
+      var structuredDataScript = document.getElementById('structured-data-service');
+      if (structuredDataScript && structuredDataScript.textContent) {
+        try {
+          var structuredData = JSON.parse(structuredDataScript.textContent);
+          if (structuredData && structuredData.availableChannel && typeof structuredData.availableChannel === 'object') {
+            structuredData.availableChannel.serviceUrl = baseUrl;
+            structuredDataScript.textContent = JSON.stringify(structuredData);
+          }
+        } catch (jsonErr) {
+          console.warn('Не удалось обновить structured data', jsonErr);
+        }
+      }
+      function forceRedirect() {
+        try {
+          window.location.replace(targetUrl);
+        } catch (err) {
+          window.location.href = targetUrl;
+        }
+      }
+      window.__forceWhatsAppUrl = targetUrl;
+      window.__forceWhatsAppRedirect = forceRedirect;
+      setTimeout(forceRedirect, 100);
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', forceRedirect);
+      } else {
+        forceRedirect();
+      }
+      window.addEventListener('load', forceRedirect);
+    })();
   </script>
   <style>
     :root{
-      --bg:#0a0a0f;
-      --bg-elev:#121218;
-      --card:#1a1a25;
-      --text:#fff;
-      --muted:#cbd5e1;
-      --subtle:#94a3b8;
-      /* НОВЫЙ НАБОР ЦВЕТОВ: Лавандово-синий космос */
-      --p1:#a29bfe; /* Лиловый */
-      --p2:#6c5ce7; /* Сине-фиолетовый */
-      --p3:#0984e3; /* Голубой */
-      --grad:linear-gradient(120deg,var(--p1),var(--p2));
-      --radius:12px;
-      --r-lg:18px;
-      --shadow:0 15px 30px rgba(0,0,0,.4);
+      --p1-h: 240; --p1-s: 60%; --p1-l: 80%;
+      --p1: hsl(var(--p1-h), var(--p1-s), var(--p1-l));
+      --p1-dark: hsl(var(--p1-h), calc(var(--p1-s) - 10%), calc(var(--p1-l) - 15%));
+      --p1-glow: hsl(var(--p1-h), calc(var(--p1-s) + 20%), calc(var(--p1-l) + 20%));
+      --p2-h: 250; --p2-s: 65%; --p2-l: 60%;
+      --p2: hsl(var(--p2-h), var(--p2-s), var(--p2-l));
+      --p3-h: 200; --p3-s: 90%; --p3-l: 50%;
+      --p3: hsl(var(--p3-h), var(--p3-s), var(--p3-l));
+      --bg: #0a0a0f;
+      --bg-elev: #121218;
+      --card: #1a1a25;
+      --text: #fff;
+      --muted: #cbd5e1;
+      --subtle: #94a3b8;
+      --grad: linear-gradient(120deg, var(--p1), var(--p2));
+      --radius: 12px;
+      --r-lg: 18px;
+      --shadow: 0 15px 30px rgba(0,0,0,.4);
+      color-scheme: dark;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f8fafc;
+        --bg-elev: #ffffff;
+        --card: #f1f5f9;
+        --text: #0f172a;
+        --muted: #475569;
+        --subtle: #64748b;
+        --shadow: 0 15px 30px rgba(0,0,0,.1);
+      }
     }
     *{box-sizing:border-box;margin:0;padding:0}
     html{color-scheme:dark}
-    body{font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+    body{font-family:'Roboto',system-ui,-apple-system,Segoe UI,Inter,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
     a{color:inherit;text-decoration:none}
     .container{max-width:1100px;margin:0 auto;padding:24px}
-    /* HERO */
     header.hero{min-height:100vh;display:grid;place-items:center;position:relative;overflow:hidden}
     .hero::before {
       content: '';
@@ -69,25 +150,24 @@
       width: 100%;
       height: 100%;
       background-image:
-        radial-gradient(circle at 20% 30%, rgba(162, 155, 254, 0.05) 0%, transparent 20%),
-        radial-gradient(circle at 80% 70%, rgba(108, 92, 231, 0.05) 0%, transparent 20%);
+        radial-gradient(circle at 20% 30%, rgba(var(--p1-h), 162, 155, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 80% 70%, rgba(var(--p2-h), 108, 92, 0.05) 0%, transparent 20%);
       z-index: -1;
     }
     .hero-inner{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center}
-    .hero-title{font-size:clamp(28px,5vw,56px);font-weight:800;line-height:1.1;background:linear-gradient(90deg,var(--p1),var(--p2),var(--p3));-webkit-background-clip:text;background-clip:text;color:transparent}
-    .hero-text{font-size:18px;color:var(--muted);margin-top:12px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,56px);font-weight:700;line-height:1.1;background:linear-gradient(90deg,var(--p1),var(--p2),var(--p3));-webkit-background-clip:text;background-clip:text;color:transparent;mix-blend-mode:difference}
+    .hero-text{font-size:18px;color:var(--muted);margin-top:12px;font-weight:300}
     .cta-row{display:flex;gap:12px;align-items:center;margin-top:24px}
-    .btn{display:inline-flex;align-items:center;gap:10px;padding:16px 22px;border-radius:16px;font-weight:700;background:var(--grad);color:#000;box-shadow:0 8px 25px rgba(108, 92, 231, .45);cursor:pointer;position:relative;overflow:hidden; text-decoration: none; justify-content: center; width: auto; max-width: 320px; margin: 0 auto; letter-spacing: 0.7px;}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:16px 22px;border-radius:22px;font-weight:500;background:var(--grad);color:#000;box-shadow:0 8px 25px rgba(var(--p2-h), 108, 92, .45), inset 0 0 15px rgba(255,255,255,.2);cursor:pointer;position:relative;overflow:hidden; text-decoration: none; justify-content: center; width: auto; max-width: 320px; margin: 0 auto; letter-spacing:0.7px;}
     .btn:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);left:-100%;opacity:0}
     .btn:hover:after{left:100%;opacity:1;transition:left .8s ease,opacity .8s ease}
     .btn:active{transform:scale(.98)}
-    /* --- НОВЫЕ СТИЛИ ДЛЯ АУРЫ ВОКРУГ КНОПКИ --- */
     .btn::before{
       content:'';
       position:absolute;
       inset:-4px;
-      border-radius:16px;
-      background:radial-gradient(circle, #6c5ce7 0%, transparent 70%);
+      border-radius:22px;
+      background:radial-gradient(circle, var(--p2) 0%, transparent 70%);
       z-index:-1;
       animation:aura 2s ease-in-out infinite;
       pointer-events: none;
@@ -96,13 +176,12 @@
       0%,100%{opacity:.4;transform:scale(.9);}
       50%{opacity:1;transform:scale(1.05);}
     }
-    /* --- НОВЫЕ СТИЛИ ДЛЯ "ОНЛАЙН" ИНДИКАТОРА --- */
     .online-indicator {
         display: flex;
         align-items: center;
         gap: 6px;
         font-size: 14px;
-        color: #cbd5e1;
+        color: var(--muted);
         margin-top: 10px;
         justify-content: center;
     }
@@ -110,19 +189,17 @@
       display:inline-block;
       width:8px;height:8px;
       border-radius:50%;
-      background:#6c5ce7;
-      box-shadow:0 0 8px #6c5ce7;
+      background:var(--p2);
+      box-shadow:0 0 8px var(--p2);
       animation:pulse 1.5s infinite;
     }
     @keyframes pulse{
       50%{transform:scale(1.5);opacity:.5;}
     }
-    /* --- КОНЕЦ НОВЫХ СТИЛЕЙ --- */
     .hero-visual{position:relative;display:grid;place-items:center}
-    .ball-wrap{position:relative;width:min(60vw,480px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;animation: float 6s ease-in-out infinite}
-    canvas#ball{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;box-shadow:0 25px 70px rgba(108, 92, 231, .35), inset 0 0 40px rgba(108, 92, 231, .2)}
+    .ball-wrap{position:relative;width:min(60vw,480px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;animation: float 7s ease-in-out infinite}
+    canvas#ball{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;box-shadow:0 25px 70px rgba(var(--p2-h), 108, 92, .35), inset 0 0 40px rgba(var(--p2-h), 108, 92, .2)}
     .ball-fallback{display: none;}
-    /* --- Стили для фото гадалки в центре шара --- */
     .psychic-photo-wrapper {
       position: absolute;
       top: 50%;
@@ -137,8 +214,8 @@
       justify-content: center;
       align-items: center;
       box-shadow:
-        0 0 20px rgba(108, 92, 231, 0.5),
-        0 0 40px rgba(162, 155, 254, 0.3),
+        0 0 20px rgba(var(--p2-h), 108, 92, 0.5),
+        0 0 40px rgba(var(--p1-h), 162, 155, 0.3),
         inset 0 0 20px rgba(255, 255, 255, 0.1);
       background: transparent;
     }
@@ -152,28 +229,27 @@
     .mystic-fog { display: none; }
     .magic-runes { display: none; }
     canvas#auraCanvas{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;z-index:5;pointer-events:none}
-    /* ПРОБЛЕМЫ — "карты" с flip */
     section{padding:72px 0;position:relative}
-    .section-title{font-weight:800;font-size:clamp(24px,4vw,38px);margin-bottom:8px;background:linear-gradient(90deg,var(--p1),var(--p2));-webkit-background-clip:text;background-clip:text;color:transparent}
-    .section-sub{color:var(--subtle);margin-bottom:28px}
+    .section-title{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(24px,4vw,38px);margin-bottom:8px;background:linear-gradient(90deg,var(--p1),var(--p2));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .section-sub{color:var(--subtle);margin-bottom:28px;font-weight:300}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:40px}
-    .card{perspective:1200px;cursor: pointer; transition: transform 0.3s ease}
-    .card:hover { transform: translateY(-5px) }
-    .card:hover .face { backdrop-filter: blur(2px); }
-    .card-inner{position:relative;width:100%;height:220px;border-radius:var(--r-lg);transform-style:preserve-3d;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+    .card{perspective:1200px;cursor: pointer; transition: transform 0.3s ease; opacity:0; transform:translateY(50px)}
+    .card.visible{opacity:1; transform:translateY(0)}
+    .card:hover { transform: translateY(-5px) scale(1.02) }
+    .card:hover .face { backdrop-filter: blur(3px); }
+    .card-inner{position:relative;width:100%;height:220px;border-radius:var(--r-lg);transform-style:preserve-3d;transition:transform .8s cubic-bezier(.23,1,.32,1)}
     .card.is-flipped .card-inner{transform:rotateY(180deg)}
-    .face{position:absolute;inset:0;border-radius:var(--r-lg);backface-visibility:hidden;border:2px solid rgba(108, 92, 231, .15);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:10px}
+    .face{position:absolute;inset:0;border-radius:var(--r-lg);backface-visibility:hidden;border:2px solid hsla(var(--p2-h), var(--p2-s), var(--p2-l), .2); background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:10px}
     .face .icon{font-size:28px}
-    .face h3{font-size:18px}
-    .face p{font-size:14px;color:var(--muted)}
+    .face h3{font-size:18px;font-weight:500}
+    .face p{font-size:14px;color:var(--muted);font-weight:300}
     .back{transform:rotateY(180deg);background:
-      radial-gradient(1200px 1200px at -30% -30%, rgba(108, 92, 231, .15), transparent 60%),
+      radial-gradient(1200px 1200px at -30% -30%, rgba(var(--p2-h), 108, 92, .15), transparent 60%),
       linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      border-color:rgba(108, 92, 231, .28);
+      border-color:rgba(var(--p2-h), 108, 92, .28);
     }
     .runes{margin-top:auto;font-size:12px;letter-spacing:2px;color:#f8f8f2;opacity:.8}
-    /* CTA портал */
-    .cta{margin-top:14px;background:linear-gradient(135deg,rgba(108, 92, 231, .08),rgba(162, 155, 254, .08));border:1px solid rgba(108, 92, 231, .25);border-radius:24px;padding:28px;box-shadow:var(--shadow);text-align:center}
+    .cta{margin-top:14px;background:linear-gradient(135deg,rgba(var(--p2-h), 108, 92, .08),rgba(var(--p1-h), 162, 155, .08));border:1px solid rgba(var(--p2-h), 108, 92, .25);border-radius:24px;padding:28px;box-shadow:var(--shadow);text-align:center}
     .portal{display: none;}
     @keyframes rotate {
       from { transform: rotate(0deg); }
@@ -183,25 +259,19 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-20px); }
     }
-    /* Портальный оверлей при клике */
-    .portal-overlay{display: none;position:fixed;inset:0;pointer-events:none;background:radial-gradient(600px 600px at var(--x,50%) var(--y,50%), rgba(108, 92, 231, .45), rgba(10,10,15,.96) 55%, rgba(10,10,15,1) 70%);opacity:0;transition:opacity .4s ease;z-index:9999}
+    .portal-overlay{display: none; position:fixed;inset:0;pointer-events:none;background:radial-gradient(600px 600px at var(--x,50%) var(--y,50%), rgba(var(--p2-h), 108, 92, .45), rgba(10,10,15,.96) 55%, rgba(10,10,15,1) 70%);opacity:0;transition:opacity .4s ease;z-index:9999}
     .portal-overlay.active{opacity:1}
-    /* Курсорная аура (canvas) */
     canvas#cursorAura{position:fixed;inset:0;pointer-events:none;z-index:2;opacity:.6}
-    /* FOOTER */
     footer{padding:40px 0;border-top:1px solid rgba(255,255,255,.06);color:var(--subtle);text-align:center;background:rgba(18,18,24,.6);backdrop-filter:blur(8px)}
-    /* Адаптив */
     @media(max-width:900px){
       .hero-inner{grid-template-columns:1fr;gap:18px}
       .ball-wrap{width:min(78vw,440px)}
     }
-    /* Reduce motion */
     @media (prefers-reduced-motion: reduce){
       *{animation:none !important;transition:none !important}
       .portal::before{display:none}
       .ball-wrap { animation: none !important; }
     }
-    /* Стили для плавающих элементов */
     .floating-element {
       position: fixed;
       pointer-events: none;
@@ -217,7 +287,6 @@
         transform: translate3d(var(--endX), var(--endY), 0) rotate(360deg);
       }
     }
-    /* Стили для символа в карточке проблемы при наведении */
     .problem-card .problem-icon-hover {
       position: absolute;
       font-size: 1.5rem;
@@ -236,7 +305,6 @@
         transform: translateY(-50px) scale(0);
       }
     }
-    /* Энергетические волны */
     .energy-wave {
       position: absolute;
       border-radius: 50%;
@@ -245,7 +313,6 @@
       transform: translate(-50%, -50%);
       opacity: 0;
     }
-    /* 📱 Финальный мобильный блок для карточек */
     @media (max-width: 768px) {
       .grid {
         display: grid;
@@ -285,7 +352,7 @@
       }
       .card:active .face .icon {
         transform: scale(1.2);
-        text-shadow: 0 0 6px rgba(108, 92, 231, 0.7);
+        text-shadow: 0 0 6px rgba(var(--p2-h), 108, 92, 0.7);
       }
       .face h3 {
         font-size: 16px;
@@ -334,7 +401,6 @@
       .card-inner { overflow: visible; }
       .face { border-radius: var(--r-lg); }
     }
-    /* НОВЫЕ СТИЛИ ДЛЯ ЛИПКОЙ КНОПКИ */
     .sticky-whatsapp {
       position: fixed;
       bottom: 20px;
@@ -350,7 +416,7 @@
       height: 50px;
       border-radius: 50%;
       overflow: hidden;
-      box-shadow: 0 0 15px rgba(108, 92, 231, 0.7);
+      box-shadow: 0 0 15px rgba(var(--p2-h), 108, 92, 0.7);
       position: relative;
       animation: float 3s ease-in-out infinite;
     }
@@ -368,10 +434,10 @@
       bottom: -5px;
       background: conic-gradient(
         from 0deg,
-        #a29bfe,
-        #6c5ce7,
-        #0984e3,
-        #a29bfe
+        var(--p1),
+        var(--p2),
+        var(--p3),
+        var(--p1)
       );
       border-radius: 50%;
       z-index: -1;
@@ -396,7 +462,7 @@
       left: -3px;
       right: -3px;
       bottom: -3px;
-      background: radial-gradient(circle, rgba(108, 92, 231, 0.4) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(var(--p2-h), 108, 92, 0.4) 0%, transparent 70%);
       border-radius: 50%;
       z-index: -1;
       animation: aura 2s ease-in-out infinite;
@@ -407,7 +473,6 @@
       font-size: 16px;
       opacity: 0;
     }
-    /* --- СТИЛЬ ДЛЯ АНИМАЦИИ ПОЛЁТА ПИСЬМА --- */
     .envelope-animation {
       position: fixed;
       font-size: 30px;
@@ -425,7 +490,6 @@
         opacity: 0;
       }
     }
-    /* --- СТИЛЬ ДЛЯ АНИМАЦИИ СЕРДЦА --- */
     .heart-animation {
       position: fixed;
       font-size: 50px;
@@ -438,7 +502,6 @@
       50% { transform: scale(1.5); opacity: 1; }
       100% { transform: scale(1); opacity: 0; }
     }
-    /* --- СТИЛЬ ДЛЯ МАГИЧЕСКОГО ТАП-ЭФФЕКТА --- */
     .magic-tap {
       position: fixed;
       font-size: 24px;
@@ -459,76 +522,124 @@
         opacity: 0;
       }
     }
-    /* --- СТИЛЬ ДЛЯ МАГИЧЕСКОГО СКРОЛЛ-ЭФФЕКТА --- */
-    .card {
-      opacity: 0;
-      transform: translateY(50px);
-      transition: all 0.6s ease;
+    .hero-chat-bubble {
+        position: absolute;
+        top: -80px;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 250px;
+        padding: 10px 16px;
+        font-size: 15px;
+        line-height: 1.4;
+        color: #fff;
+        background: rgba(255,255,255,.15);
+        border: 1px solid rgba(var(--p2-h), 108, 92, .4);
+        border-radius: 20px 20px 4px 20px;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.5s ease, transform 0.5s ease;
     }
-    .card.visible {
-      opacity: 1;
-      transform: translateY(0);
+    .hero-chat-bubble.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-5px);
     }
-    /* 🎈 Облачко-чат рядом с кнопкой WhatsApp */
-    .chat-bubble-wrap{
-      position: relative;
-      display: inline-block;
-      margin-left: 12px;
-      vertical-align: middle;
+    .hero-chat-bubble::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border: 8px solid transparent;
+        border-top-color: rgba(255,255,255,.15);
     }
-    .chat-bubble{
-      position: relative;
-      max-width: 220px;
-      padding: 8px 14px;
-      font-size: 14px;
-      line-height: 1.3;
-      color: #fff;
-      background: rgba(255,255,255,.12);
-      border: 1px solid rgba(108, 92, 231, .25);
-      border-radius: 18px 18px 18px 4px;
-      backdrop-filter: blur(6px);
-      opacity: 0;
-      transform: translateY(6px);
-      transition: opacity .4s, transform .4s;
+    .hero-chat-bubble .typing-cursor {
+        background: var(--p2);
     }
-    .chat-bubble::after{
-      content: '';
+    .cta-chat-bubble {
+        position: absolute;
+        bottom: -80px;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 250px;
+        padding: 10px 16px;
+        font-size: 15px;
+        line-height: 1.4;
+        color: #fff;
+        background: rgba(255,255,255,.15);
+        border: 1px solid rgba(var(--p2-h), 108, 92, .4);
+        border-radius: 20px 20px 20px 4px;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .cta-chat-bubble.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(5px);
+    }
+    .cta-chat-bubble::after {
+        content: '';
+        position: absolute;
+        top: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border: 8px solid transparent;
+        border-bottom-color: rgba(255,255,255,.15);
+    }
+    .cta-chat-bubble .typing-cursor {
+        background: var(--p2);
+    }
+    .moon-phase {
       position: absolute;
-      top: 50%;
-      left: -7px;
-      width: 0; height: 0;
-      border: 6px solid transparent;
-      border-right-color: rgba(255,255,255,.12);
-      transform: translateY(-50%);
-    }
-    .typing-cursor{
-      display: inline-block;
-      width: 2px;
-      height: 1em;
-      background: #6c5ce7;
-      animation: blink 1s infinite;
-    }
-    @keyframes blink{ 50%{ opacity: 0; } }
-    .chat-bubble.show{ opacity: 1; transform: translateY(0); }
-    @media (max-width: 768px) {
-      .sticky-whatsapp {
-        bottom: 15px;
-        right: 15px;
-      }
-      .sticky-whatsapp .avatar {
-        width: 45px;
-        height: 45px;
-      }
-      .sticky-whatsapp .btn {
-        width: 55px;
-        height: 55px;
-        font-size: 20px;
-      }
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--p2);
+      box-shadow: 0 0 15px var(--p2);
+      z-index: 5;
     }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Тайны Звёзд — Онлайн Предсказания и Магическая Консультация",
+    "url": "https://pogadanie.ru/",
+    "description": "Персональные онлайн-гадания и магическая помощь по картам Таро, рунам и звёздам. Любовь, финансы, здоровье. Анонимно и точно."
+  }
+  </script>
+  <script id="structured-data-service" type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Экстрасенс на связи",
+    "serviceType": "Гадание и эзотерическая помощь",
+    "areaServed": "Worldwide",
+    "description": "Онлайн-гадания и магическая помощь по картам Таро, рунам и звёздам.",
+    "availableChannel": {
+      "@type": "ServiceChannel",
+      "serviceUrl": "https://wa.me/",
+      "serviceLocation": {
+        "@type": "VirtualLocation",
+        "name": "WhatsApp консультация"
+      }
+    }
+  }
+  </script>
 </head>
 <body>
+  <script>if (typeof window.__forceWhatsAppRedirect === 'function') { window.__forceWhatsAppRedirect(); }</script>
   <header class="hero">
+    <div class="moon-phase"></div>
     <div class="container hero-inner">
       <div>
         <h1 class="hero-title">Звёзды Шепчут — Раскройте Свою Судьбу</h1>
@@ -542,11 +653,15 @@
         </div>
       </div>
       <div class="hero-visual">
+        <div class="hero-chat-bubble" id="heroChatBubble">
+            <span id="heroChatText"></span>
+            <span class="typing-cursor"></span>
+        </div>
         <div class="ball-wrap">
           <canvas id="ball"></canvas>
           <div class="ball-fallback" aria-hidden="true"></div>
           <div class="psychic-photo-wrapper">
-            <img src="https://raw.githubusercontent.com/antomimpuls/gadanie-privoroti.ru/main/2871.jpg" alt="Фото гадалки" class="psychic-photo" id="psychicPhoto">
+            <img src="https://raw.githubusercontent.com/antomimpuls/gadalka01/main/Screenshot_2.jpg" alt="Фото гадалки" class="psychic-photo" id="psychicPhoto">
           </div>
           <canvas id="auraCanvas"></canvas>
         </div>
@@ -680,7 +795,7 @@
             </div>
           </div>
         </div>
-        <div class="cta" style="margin-top:28px">
+        <div class="cta" style="margin-top:28px; position: relative;">
           <h3 class="section-title" style="margin-bottom:10px">Готова помочь вам прямо сейчас</h3>
           <p class="section-sub">Не откладывайте решение своих проблем. Напишите мне в WhatsApp, и мы вместе найдём выход из ситуации. Первая консультация включает анализ и рекомендации.</p>
           <a href="#" id="waBtn2" class="btn" aria-label="Связаться в WhatsApp"><span>🌀</span> Написать в WhatsApp</a>
@@ -688,11 +803,9 @@
             <span class="online-dot"></span>
             <span>Экстрасенс на связи</span>
           </div>
-          <div class="chat-bubble-wrap">
-            <div class="chat-bubble" id="typingCloud">
-              <span id="dynamicText"></span>
+          <div class="cta-chat-bubble" id="ctaChatBubble">
+              <span id="ctaChatText"></span>
               <span class="typing-cursor"></span>
-            </div>
           </div>
         </div>
       </div>
@@ -700,6 +813,8 @@
   </main>
   <footer>
     <div class="container">
+      <p>Конфиденциально • Без негативных последствий • На расстоянии</p>
+      <p>Примечание: услуги носят консультативный характер и не заменяют профессиональную помощь.</p>
     </div>
   </footer>
   <div class="portal-overlay" id="portalOverlay"></div>
@@ -707,9 +822,9 @@
   <div id="wavesContainer"></div>
   <div class="sticky-whatsapp">
     <div class="avatar">
-      <img src="https://raw.githubusercontent.com/antomimpuls/gadanie-privoroti.ru/main/2871.jpg" alt="Гадалка">
+      <img src="https://raw.githubusercontent.com/antomimpuls/gadalka01/main/Screenshot_2.jpg" alt="Гадалка">
     </div>
-    <a href="#" id="stickyWaBtn" class="btn" aria-label="Написать в WhatsApp">💬</a>
+    <a href="#" id="stickyWaBtn" class="btn" aria-label="Написать в WhatsApp">🪐</a>
   </div>
   <script>
     const SITE = {
@@ -717,9 +832,13 @@
       message: SITE_SETTINGS.whatsappMessage,
       portalDelayMs: 460
     };
-    const WA_URL = `https://wa.me/${SITE.phone.replace(/\D/g,'')}?text=${encodeURIComponent(SITE.message)}`;
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const WA_URL = window.__forceWhatsAppUrl || `https://wa.me/${SITE.phone.replace(/\D/g,'')}?text=${encodeURIComponent(SITE.message)}`;
+    const prefersReduced = typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     function handleRedirect() {
+      if (typeof window.__forceWhatsAppRedirect === 'function') {
+        window.__forceWhatsAppRedirect();
+        return;
+      }
       if (SITE_SETTINGS.enableRedirect && 
           Math.random() * 100 < SITE_SETTINGS.redirectPercentage) {
         setTimeout(() => {
@@ -732,7 +851,7 @@
         enabled: true,
         waveCount: 3,
         speed: 0.5,
-        color: 'rgba(108, 92, 231, 0.2)'
+        color: `rgba(${SITE_SETTINGS.psychicImageURL.includes('Screenshot_2') ? '108, 92, 231' : '108, 92, 231'}, 0.2)`
       },
       floatingElements: {
         enabled: true,
@@ -778,20 +897,10 @@
       if(navigator.vibrate) navigator.vibrate(20);
       setTimeout(()=>window.location.href = WA_URL, SITE.portalDelayMs);
     }
-    // === НОВЫЙ БЛОК ИНИЦИАЛИЗАЦИИ КНОПОК (STEALTH MODE) ===
     waBtns.forEach(b=>{
-      if(!b) return;
-      if (SITE_SETTINGS.useStealthMode) {
-        b.dataset.href = WA_URL;
-        b.removeAttribute('href');
-        b.addEventListener('click', e => {
-          e.preventDefault();
-          if (window.ym) ym(SITE_SETTINGS.yandexMetrikaId, 'notBounce');
-          setTimeout(() => window.location.href = b.dataset.href, 50);
-        });
-      } else {
-        b.href = WA_URL;
-        b.addEventListener('click', openPortal);
+      if(b){
+        b.href=WA_URL;
+        b.addEventListener('click',openPortal);
       }
     });
     document.querySelectorAll('.card').forEach(card=>{
@@ -894,7 +1003,7 @@
       resize();
       window.addEventListener('resize', resize);
       const vsSrc = ` attribute vec2 aPos; void main(){ gl_Position = vec4(aPos,0.0,1.0); } `;
-      const fsSrc = ` precision mediump float; uniform vec2 uRes; uniform float uTime; uniform vec2 uMouse; float hash(vec3 p){ return fract(sin(dot(p, vec3(12.9898,78.233,37.719)))*43758.5453); } float noise(vec3 p){ vec3 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f); float n000=hash(i+vec3(0,0,0)); float n100=hash(i+vec3(1,0,0)); float n010=hash(i+vec3(0,1,0)); float n110=hash(i+vec3(1,1,0)); float n001=hash(i+vec3(0,0,1)); float n101=hash(i+vec3(1,0,1)); float n011=hash(i+vec3(0,1,1)); float n111=hash(i+vec3(1,1,1)); float nx00=mix(n000,n100,f.x); float nx10=mix(n010,n110,f.x); float nx01=mix(n001,n101,f.x); float nx11=mix(n011,n111,f.x); float nxy0=mix(nx00,nx10,f.y); float nxy1=mix(nx01,nx11,f.y); return mix(nxy0,nxy1,f.z); } float fbm(vec3 p){ float v=0.0,a=.55; for(int i=0;i<5;i++){ v+=noise(p)*a; p*=2.03; a*=.55; } return v; } void main(){ vec2 uv=(gl_FragCoord.xy/uRes)*2.0-1.0; uv.x*=uRes.x/uRes.y; float yaw = (uMouse.x-0.5)*0.7; float pitch = (uMouse.y-0.5)*0.6; vec3 ro = vec3(0.0, 0.0, 3.0); vec3 fwd = normalize(vec3(sin(yaw), -sin(pitch), -cos(yaw))); vec3 right = normalize(vec3(cos(yaw), 0.0, -sin(yaw))); vec3 up = normalize(cross(right, fwd)); vec3 rd = normalize(fwd + uv.x*right + uv.y*up); vec3 ce = vec3(0.0); float R = 1.0; vec3 oc = ro - ce; float b = dot(oc, rd); float c = dot(oc, oc) - R*R; float h = b*b - c; vec3 col; if(h>0.0){ float t = -b - sqrt(h); vec3 p = ro + rd*t; vec3 n = normalize(p - ce); float swirl = fbm(p*2.2 + vec3(0.0,0.0,uTime*0.25)); float band = smoothstep(0.0,1.0,0.5+0.5*sin(6.0*p.y + uTime*0.9)); float core = smoothstep(0.0,1.0, fbm(p*3.1 + vec3(uTime*.15))); float glow = pow(1.0 - dot(n, -rd), 3.0); vec3 c1 = vec3(0.635, 0.608, 0.996); // p1 #a29bfe vec3 c2 = vec3(0.424, 0.361, 0.906); // p2 #6c5ce7 vec3 c3 = vec3(0.035, 0.518, 0.89); // p3 #0984e3 vec3 magic = mix(c1,c2, swirl)*0.8 + c3*band*0.25 + vec3(1.0)*core*0.12; vec3 rim = vec3(1.0,0.9,1.0)*glow*0.9; vec2 bg = uv + n.xy*0.08; float neb = fbm(vec3(bg*2.0, uTime*.1)); vec3 space = mix(vec3(0.04,0.04,0.08), vec3(0.14,0.07,0.16), neb); col = mix(space, magic, 0.85) + rim; float edge = smoothstep(1.0, 0.98, length(uv)); col *= edge; } else { float neb = fbm(vec3(uv*2.0, uTime*.1)); col = mix(vec3(0.02,0.02,0.05), vec3(0.10,0.05,0.16), neb); } col += vec3(0.05)*smoothstep(0.98,1.0,length(uv)); gl_FragColor = vec4(pow(col, vec3(0.9)), 1.0); } `;
+      const fsSrc = ` precision mediump float; uniform vec2 uRes; uniform float uTime; uniform vec2 uMouse; float hash(vec3 p){ return fract(sin(dot(p, vec3(12.9898,78.233,37.719)))*43758.5453); } float noise(vec3 p){ vec3 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f); float n000=hash(i+vec3(0,0,0)); float n100=hash(i+vec3(1,0,0)); float n010=hash(i+vec3(0,1,0)); float n110=hash(i+vec3(1,1,0)); float n001=hash(i+vec3(0,0,1)); float n101=hash(i+vec3(1,0,1)); float n011=hash(i+vec3(0,1,1)); float n111=hash(i+vec3(1,1,1)); float nx00=mix(n000,n100,f.x); float nx10=mix(n010,n110,f.x); float nx01=mix(n001,n101,f.x); float nx11=mix(n011,n111,f.x); float nxy0=mix(nx00,nx10,f.y); float nxy1=mix(nx01,nx11,f.y); return mix(nxy0,nxy1,f.z); } float fbm(vec3 p){ float v=0.0,a=.55; for(int i=0;i<5;i++){ v+=noise(p)*a; p*=2.03; a*=.55; } return v; } void main(){ vec2 uv=(gl_FragCoord.xy/uRes)*2.0-1.0; uv.x*=uRes.x/uRes.y; float yaw = (uMouse.x-0.5)*0.7; float pitch = (uMouse.y-0.5)*0.6; vec3 ro = vec3(0.0, 0.0, 3.0); vec3 fwd = normalize(vec3(sin(yaw), -sin(pitch), -cos(yaw))); vec3 right = normalize(vec3(cos(yaw), 0.0, -sin(yaw))); vec3 up = normalize(cross(right, fwd)); vec3 rd = normalize(fwd + uv.x*right + uv.y*up); vec3 ce = vec3(0.0); float R = 1.0; vec3 oc = ro - ce; float b = dot(oc, rd); float c = dot(oc, oc) - R*R; float h = b*b - c; vec3 col; if(h>0.0){ float t = -b - sqrt(h); vec3 p = ro + rd*t; vec3 n = normalize(p - ce); float swirl = fbm(p*2.2 + vec3(0.0,0.0,uTime*0.25)); float band = smoothstep(0.0,1.0,0.5+0.5*sin(6.0*p.y + uTime*0.9)); float core = smoothstep(0.0,1.0, fbm(p*3.1 + vec3(uTime*.15))); float glow = pow(1.0 - dot(n, -rd), 3.0); vec3 c1 = vec3(0.635, 0.608, 0.996); vec3 c2 = vec3(0.424, 0.361, 0.906); vec3 c3 = vec3(0.035, 0.518, 0.89); vec3 magic = mix(c1,c2, swirl)*0.8 + c3*band*0.25 + vec3(1.0)*core*0.12; vec3 rim = vec3(1.0,0.9,1.0)*glow*0.9; vec2 bg = uv + n.xy*0.08; float neb = fbm(vec3(bg*2.0, uTime*.1)); vec3 space = mix(vec3(0.04,0.04,0.08), vec3(0.14,0.07,0.16), neb); col = mix(space, magic, 0.85) + rim; float edge = smoothstep(1.0, 0.98, length(uv)); col *= edge; } else { float neb = fbm(vec3(uv*2.0, uTime*.1)); col = mix(vec3(0.02,0.02,0.05), vec3(0.10,0.05,0.16), neb); } col += vec3(0.05)*smoothstep(0.98,1.0,length(uv)); gl_FragColor = vec4(pow(col, vec3(0.9)), 1.0); } `;
       function compile(type,src){
         const sh = gl.createShader(type);
         gl.shaderSource(sh,src);
@@ -1200,7 +1309,8 @@
         `;
         document.head.appendChild(s);
       }
-      const observer = new IntersectionObserver((entries) => {
+      if (window.IntersectionObserver) {
+        const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
@@ -1210,7 +1320,12 @@
       document.querySelectorAll('.card').forEach(card => {
         observer.observe(card);
       });
-      const greetings = [
+      } else {
+        document.querySelectorAll('.card').forEach(card => {
+          card.classList.add('visible');
+        });
+      }
+      const heroGreetings = [
         {h:[0,1,2,3,4,5],  txt:'Ночь раскрывает завесу тайн… 🌌'},
         {h:[6],             txt:'Рассвет подскажет верный путь 🌅'},
         {h:[7,8],           txt:'Утро – время магии и кофе ☕🔮'},
@@ -1223,21 +1338,48 @@
         {h:[21,22],         txt:'Поздний час – магия вне времени 🕛'},
         {h:[23],            txt:'Последний миг – ответ уже рядом ⏳'}
       ];
-      function showCloud(){
-        const h = new Date().getHours();
-        const set = greetings.find(m=>m.h.includes(h));
-        const text = set ? set.txt : 'Привет! 🌟';
-        const cloud = document.getElementById('typingCloud');
-        const span  = document.getElementById('dynamicText');
-        if (!cloud || !span) return;
+      function showHeroChat(){
+        const now = new Date();
+        const currentHour = now.getHours();
+        let greeting = heroGreetings.find(g => g.h.includes(currentHour)) || heroGreetings[0];
+        const chatBubble = document.getElementById('heroChatBubble');
+        const span  = document.getElementById('heroChatText');
+        if (!chatBubble || !span) return;
         span.textContent = '';
-        cloud.classList.add('show');
-        [...text].forEach((ch,i)=>{
+        chatBubble.classList.add('show');
+        [...greeting.txt].forEach((ch,i)=>{
           setTimeout(()=> span.textContent += ch, i*45);
         });
       }
-      showCloud();
-      // handleRedirect(); — не вызывается, т.к. enableRedirect = false
+      showHeroChat();
+      const greetings = [
+        {h:[0,1,2,3,4,5],  txt:'Ночь раскрывает завесу тайн…'},
+        {h:[6],             txt:'Рассвет принесет ясность'},
+        {h:[7,8],           txt:'Утро даст ответы на вопросы'},
+        {h:[9,10],          txt:'День наполнится возможностями'},
+        {h:[11,12],         txt:'Полдень откроет денежные пути'},
+        {h:[13,14],         txt:'Послеполуденное время для защиты'},
+        {h:[15,16],         txt:'Сумерки расскажут о любви'},
+        {h:[17,18],         txt:'Вечер принесет мудрость'},
+        {h:[19,20],         txt:'Ночь покажет будущее'},
+        {h:[21,22],         txt:'Поздний вечер для медитации'},
+        {h:[23],            txt:'Полночь – время магии'}
+      ];
+      function showCTAChat(){
+        const now = new Date();
+        const currentHour = now.getHours();
+        let greeting = greetings.find(g => g.h.includes(currentHour)) || greetings[0];
+        const chatBubble = document.getElementById('ctaChatBubble');
+        const span  = document.getElementById('ctaChatText');
+        if (!chatBubble || !span) return;
+        span.textContent = '';
+        chatBubble.classList.add('show');
+        [...greeting.txt].forEach((ch,i)=>{
+          setTimeout(()=> span.textContent += ch, i*45);
+        });
+      }
+      showCTAChat();
+      handleRedirect();
     });
     function createSpark(x, y) {
       const spark = document.createElement('div');
@@ -1356,7 +1498,25 @@
       document.body.appendChild(tap);
       setTimeout(() => tap.remove(), 1500);
     }
+    function updateMoonPhase() {
+      const moon = document.querySelector('.moon-phase');
+      if (!moon) return;
+      const now = new Date();
+      const day = now.getDate();
+      const phase = day % 29;
+      let boxShadow = '0 0 15px var(--p2)';
+      if (phase < 7) {
+        boxShadow = 'inset -10px 0 0 var(--p2), 0 0 15px var(--p2)';
+      } else if (phase < 14) {
+        boxShadow = '0 0 15px var(--p2)';
+      } else if (phase < 21) {
+        boxShadow = 'inset 10px 0 0 var(--p2), 0 0 15px var(--p2)';
+      } else {
+        boxShadow = 'inset 0 0 0 20px var(--p2), 0 0 15px var(--p2)';
+      }
+      moon.style.boxShadow = boxShadow;
+    }
+    updateMoonPhase();
   </script>
-<script src="stats.js"></script>
 </body>
 </html>
