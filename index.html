@@ -179,9 +179,46 @@ p{font-size:clamp(1rem,2vw,1.1rem);color:#a8a8b8;margin-bottom:15px;line-height:
 .address-info strong{color:#f9a8d4;display:block;margin-bottom:5px}
 .address-info p{margin:5px 0;color:#a8a8b8;font-size:0.85rem}
 footer{background:#05050a;padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,0.05)}
-@media(max-width:1024px){.hero-grid{grid-template-columns:1fr;text-align:center}.hero-img{max-width:500px;margin:0 auto}}
-@media(max-width:768px){.trust-grid{display:none}.stats{display:none}.cards{display:none}.testimonial{display:none}.slider{display:none}.slider-nav{display:none}.slider-arrow{display:none}.section.bg-alt{display:none}.section-header{display:none}.card{display:none}.magic-particles{display:none}.hero-grid{grid-template-columns:1fr}.btn{padding:15px 28px;font-size:0.95rem}.hero-cta .btn{min-width:unset;flex:1 1 100%}.sticky-messengers{bottom:15px;right:15px;left:15px}.sticky-messengers .btn{width:100%}.hero{padding:60px 0 80px}.hero-grid>div:first-child{order:2;margin-top:25px}.hero-grid>div:last-child{order:1}.hero-img{margin:0 auto 16px}.psychic-name{margin-top:10px;padding:12px 15px}.psychic-name-title{font-size:1.3rem}.psychic-name-subtitle{font-size:0.85rem}}
-@media(max-width:480px){.container{padding:0 15px}.btn{padding:14px 25px}.card{padding:25px 20px}}
+@media(max-width:1024px){
+  .hero-grid{grid-template-columns:1fr;text-align:center}
+  .hero-img{max-width:500px;margin:0 auto}
+}
+@media(max-width:768px){
+  .container{padding:0 18px}
+  .hero{padding:60px 0 80px}
+  .hero-grid{grid-template-columns:1fr;gap:30px;text-align:left}
+  .hero-grid>div:first-child{order:2;margin-top:10px}
+  .hero-grid>div:last-child{order:1}
+  .hero-img{max-width:420px;margin:0 auto 16px}
+  .magic-particles{display:none}
+  .btn{padding:15px 28px;font-size:0.95rem}
+  .hero-cta{flex-direction:column}
+  .hero-cta .btn{min-width:unset;width:100%}
+  .sticky-messengers{bottom:15px;right:15px;left:15px}
+  .sticky-messengers .btn{width:100%}
+  .trust-grid{grid-template-columns:1fr;gap:12px}
+  .stats{grid-template-columns:repeat(2,1fr);gap:15px}
+  .stat{padding:15px 10px;background:rgba(255,255,255,0.03);border-radius:12px}
+  .cards{grid-template-columns:1fr;gap:20px}
+  .card{padding:25px 20px}
+  .testimonial{margin:0 5px}
+  .slider{margin:0 -10px}
+  .slider-arrow{display:none}
+  .slider-nav{gap:6px}
+  .section{padding:60px 0}
+  .section-header{margin-bottom:30px}
+  .psychic-name{margin-top:10px;padding:12px 15px}
+  .psychic-name-title{font-size:1.3rem}
+  .psychic-name-subtitle{font-size:0.85rem}
+  .address-info{margin-top:15px}
+}
+@media(max-width:480px){
+  .container{padding:0 15px}
+  .stats{grid-template-columns:1fr}
+  .hero-cta-note{font-size:0.85rem}
+  .btn{padding:14px 25px}
+  .card{padding:22px 18px}
+}
 .slider{position:relative;overflow:hidden;max-width:900px;margin:0 auto}
 .slider-wrapper{display:flex;transition:transform 0.5s ease}
 .slider-slide{min-width:100%;box-sizing:border-box}
